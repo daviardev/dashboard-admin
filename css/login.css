@@ -1,0 +1,126 @@
+.container_login {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.content_login {
+    width: 100%;
+    display: flex;
+    z-index: 1;
+
+    /* Display Firefox and Edge */
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -moz-flex;
+    /* ------------- */
+
+    padding: 15px;
+    min-height: 100vh;
+    align-items: center;
+    position: relative;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.content_login::before {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: '';
+    display: block;
+    z-index: -1;
+    position: absolute;
+    background-size: cover;
+    background-image: url(/public/fondo3.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.form_login {
+    width: 450px;
+    overflow: hidden;
+    padding-left: 50px;
+    border-radius: 12px;
+    padding-top: 30px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 30px;
+    background-color: #fff;
+}
+
+.logo_sofiaPlus {
+    margin-left: 25%;
+    padding-bottom: 20px;
+}
+
+.title_login {
+    width: 100%;
+    display: block;
+    font-size: 20px;
+    text-align: center;
+    line-height: 1.2;
+    text-transform: uppercase;
+    padding-bottom: 30px;
+}
+
+.input_document {
+    color: #686868;
+    width: 100%;
+    height: 60px;
+    padding: 0 0 0 12px;
+    display: block;
+    font-size: 18px;
+    line-height: 1.2;
+    border-radius: 3px;
+    background: #e6e6e6;
+}
+
+.icon {
+    position: absolute;
+    top: 0;
+    color: #333333;
+}
+
+.forgot_pass {
+    transition: all .4s;
+}
+
+.forgot_pass:hover {
+    color: #d33f8d;
+}
+
+.content_button {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 25px;
+}
+
+.btn {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #fff;
+    text-transform: uppercase;
+    width: 100%;
+    height: 50px;
+    border-radius: 9999px;
+    background: #5cb85c;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+.btn:hover {
+    background-color: #333333;
+}
