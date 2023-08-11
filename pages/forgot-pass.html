@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang='es'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel='shortcut icon' href='/public/favicon.jpeg' type='image/x-icon'>
+    <link rel='stylesheet' href='/css/globals.css'>
+    <link rel='stylesheet' href='/css/forgot-pass.css'>
+    <title>Restablecer contraseña · DB</title>
+</head>
+
+<body>
+    <main>
+        <div class='container'>
+            <div class='row'>
+                <div class='content_form'>
+                    <form action='' class='form'>
+                        <span class='text'>Seleccione y escriba el tipo y el número de su documento de identidad</span>
+                        <hr>
+                        <div style='margin: 30px auto;'>
+                            <section>
+                                <label>Tipo de documento</label>
+                                <br />
+                                <select name='typeDocument' class='input' required>
+                                    <option value='CC'>Cédula de Ciudadanía</option>
+                                    <option value='CE'>Cédula de Extranjería</option>
+                                    <option value='TI'>Tarjeta de Identidad</option>
+                                    <option value='PEP'>Permiso especial de permanencia</option>
+                                    <option value='DNI'>DNI - Documento Nacional de Identificación</option>
+                                    <option value='NCS'>Número Ciego SENA</option>
+                                    <option value='PS'>Pasaporte</option>
+                                    <option value='PPT'>Permiso por Protección Temporal</option>
+                                </select>
+                            </section>
+
+                            <section style='margin-top: 25px;'>
+                                <label>Número de documento</label>
+                                <br>
+                                <input type='text' name='numberDocument' class='input' required />
+                            </section>
+
+                            <br />
+
+                            <button type='button' class='btn' style='height: 35px; width: 70%;'>Restablecer contraseña</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
