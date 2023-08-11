@@ -10,12 +10,6 @@
     margin-right: -15px;
 }
 
-.row::before,
-.container::before {
-    content: ' ';
-    display: table;
-}
-
 .content_form {
     position: relative;
     min-height: 1px;

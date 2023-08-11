@@ -29,6 +29,18 @@ select {
     line-height: inherit;
 }
 
+nav {
+    display: block;
+}
+
+.row::before,
+.navbar::before,
+.container::before,
+.header_logo {
+    content: ' ';
+    display: table;
+}
+
 button {
     border: none;
     cursor: pointer;
