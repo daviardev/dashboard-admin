@@ -1,4 +1,4 @@
-<?php include('./backend/conexion.php') ?>
+<?php include('./backend/conexion.php'); ?>
 
 <!DOCTYPE html>
 <html lang='es'>
@@ -22,7 +22,7 @@
                     <input
                       type='text'
                       class='input'
-                      name='numberDocument'
+                      name='num_doc'
                       placeholder='Número de Documento'
                     />
                     <svg
@@ -44,7 +44,7 @@
                     <input
                       type='password'
                       class='input'
-                      name='numberDocument'
+                      name='contraseña'
                       placeholder='Contraseña'
                     />
                     <svg
