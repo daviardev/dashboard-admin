@@ -1,20 +1,20 @@
-
+<?php include('./backend/conexion.php') ?>
 
 <!DOCTYPE html>
 <html lang='es'>
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <link rel='shortcut icon' href='/public/favicon.jpeg' type='image/x-icon'>
+    <link rel='shortcut icon' href='/src/img/favicon.jpeg' type='image/x-icon'>
     <title>Iniciar sesión · Centro de registros</title>
-    <link rel='stylesheet' href='./css/login.css'>
+    <link rel='stylesheet' href='/css/login.css'>
 </head>
 <body>
     <div class='container-login'>
         <section class='content-login'>
             <form action='' class='form-login'>
                 <img
-                   src='public/logoSofia.png'
+                   src='/src/img/logoSofia.png'
                    alt='Logo Sofia Plus'
                 />
                 <h2 class='title-login'>ingreso usuarios registrados</h2>
