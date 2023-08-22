@@ -1,8 +1,6 @@
 .container {
-    margin-left: auto;
-    padding-left: 15px;
-    margin-right: auto;
-    padding-right: 15px;
+    margin: 0 auto 0 auto;
+    padding: 0 auto 15px 0;
 }
 
 .row {
@@ -19,8 +17,8 @@
 
 .form {
     border: #e0dede solid 1px;
-    padding: 20px 15px 30px 15px;
-    margin-top: 20%;
+    padding: 20px 15px 20px 15px;
+    margin-top: 10%;
     border-radius: 4px;
     margin-bottom: 30px;
     min-height: 330px;
