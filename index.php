@@ -12,11 +12,12 @@
 <body>
     <div class='container-login'>
         <section class='content-login'>
-            <form action='' class='form-login'>
+            <form action='./backend/login.php' class='form-login'>
                 <img
                    src='./src/img/logoSofia.png'
                    alt='Logo Sofia Plus'
                 />
+                <div class='error-txt'></div>
                 <h2 class='title-login'>ingreso usuarios registrados</h2>
                 <div class='input-content'>
                     <input
@@ -24,6 +25,7 @@
                       class='input'
                       name='num_doc'
                       placeholder='Número de Documento'
+                      required
                     />
                     <svg
                         fill='currentColor'
@@ -46,6 +48,7 @@
                       class='input'
                       name='contraseña'
                       placeholder='Contraseña'
+                      required
                     />
                     <svg
                         fill='currentColor'
@@ -64,11 +67,10 @@
                     <path d='M2 17h20v2H2v-2zm1.15-4.05L4 11.47l.85 1.48 1.3-.75-.85-1.48H7v-1.5H5.3l.85-1.47L4.85 7 4 8.47 3.15 7l-1.3.75.85 1.47H1v1.5h1.7l-.85 1.48 1.3.75zm6.7-.75l1.3.75.85-1.48.85 1.48 1.3-.75-.85-1.48H15v-1.5h-1.7l.85-1.47-1.3-.75L12 8.47 11.15 7l-1.3.75.85 1.47H9v1.5h1.7l-.85 1.48zM23 9.22h-1.7l.85-1.47-1.3-.75L20 8.47 19.15 7l-1.3.75.85 1.47H17v1.5h1.7l-.85 1.48 1.3.75.85-1.48.85 1.48 1.3-.75-.85-1.48H23v-1.5z'></path></svg>
                 </div>
                 <div class='content-button'>
-                    <button class='btn' type='button'>
+                    <button class='btn' type='submit'>
                         ingresar
                     </button>
                 </div>
-                <div style='padding-bottom: 23px; padding-top: 42px;' />
             </form>
         </section>
     </div>
