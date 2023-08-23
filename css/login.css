@@ -1,4 +1,4 @@
-@import url(globals.css);
+@import url(./globals.css);
 
 .container-login {
     top: 0;
@@ -9,7 +9,7 @@
     display: block;
     position: absolute;
     background-size: cover;
-    background-image: url(/public/fondo3.jpg);
+    background-image: url(../src/img/fondo3.jpg);
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -30,10 +30,31 @@
     background-color: var(--sidebar-color);
     border-radius: .5rem;
     padding: 30px 50px 30px 50px;
+
+    & img {
+        padding-bottom: 20px;
+    }
 }
 
-.form-login img {
-    padding-bottom: 20px;
+.error-txt {
+    color: #721c24;
+    background-color: #f8d7da;
+    padding: 8px 10px;
+    text-align: center;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #f5c6cb;
+    display: none;
+}
+
+.eye {
+    position: absolute;
+    right: 15px;
+    top: 20%;
+    color: var(--text-color);
+    transform: translateY(-55%);
+    cursor: pointer;
+    font-size: 24px;
 }
 
 .title-login {
@@ -64,14 +85,14 @@
     border-radius: 3px;
     padding: 0 30px 0 65px;
     transition: filter 200ms;
-}
 
-.input:hover {
-    filter: drop-shadow(5px 0 0 var(--primary-color));
-}
+    &:hover {
+        filter: drop-shadow(5px 0 0 var(--primary-color));
+    }
 
-.input:focus {
-    filter: drop-shadow(5px 0 0 var(--primary-color));
+    &:focus {
+        filter: drop-shadow(5px 0 0 var(--primary-color));
+    }
 }
 
 .icon-input {
@@ -90,11 +111,12 @@
     color: var(--text-color);
     font-size: 14px;
     transition: color 200ms;
+
+    &:hover {
+        color: var(--primary-color);
+    }
 }
 
-.forgot-pass:hover {
-    color: var(--primary-color);
-}
 
 .content-button {
     width: 100%;
@@ -118,8 +140,8 @@
     align-items: center;
     padding: 0 25px;
     transition: background-color 200ms ease;
-}
 
-.btn:hover {
-    background-color: var(--text-color);
+    &:hover {
+        background-color: var(--text-color);
+    }
 }

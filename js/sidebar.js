@@ -1,6 +1,6 @@
 import { $ } from './dom.js'
 
-const body = document.querySelector('body'),
+const body = $('body'),
       sidebar = body.querySelector('nav'),
       toggle = body.querySelector('.toggle'),
       modeSwitch = body.querySelector('.toggle-switch'),

@@ -1,8 +1,8 @@
 <?php
     $password = '';
     $user = 'root';
-    $host = 'dasboard-app.dvl.to';
-    $db = 'DashData';
+    $host = 'localhost';
+    $db = 'dash-data';
 
     $conn = mysqli_connect($host, $user, $password, $db);
 

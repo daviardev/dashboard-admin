@@ -9,10 +9,10 @@
     background: var(--sidebar-color);
     transition: var(--tran-05);
     z-index: 100;
-}
 
-.sidebar.close {
-    width: 88px;
+    &.close {
+        width: 88px;
+    }
 }
 
 .sidebar li {
