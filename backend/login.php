@@ -5,9 +5,9 @@
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $numberDoc = $_POST['num_doc'];
-        $pass = $_POST['contraseñas'];
+        $pass = $_POST['contraseña'];
 
-        $query = 'SELECT * FROM registroPersonas WHERE num_doc = $numberDoc';
+        $query = 'SELECT * FROM registropersonas WHERE num_doc = $numberDoc';
         $result = mysqli_query($conn, $query);
 
         if (mysqli_num_rows($result) === 1) {
@@ -28,7 +28,7 @@
                 }
 
                 if (isset($location)) {
-                    header('Location: '.$location);
+                    header('Location: $location');
                     exit;
                 } else {
                     $errorLogin = 'Usuario no registrado';
@@ -36,7 +36,10 @@
                 }
             } else {
                 $errorLogin = 'Usuario o contraseña incorrectos';
+                exit;
             }
         }
     }
+
+    mysqli_close($conn);
 ?>

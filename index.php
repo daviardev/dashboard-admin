@@ -12,7 +12,7 @@
 <body>
     <div class='container-login'>
         <section class='content-login'>
-            <form action='./backend/login.php' class='form-login'>
+            <form action='./backend/login.php' class='form-login' method='post'>
                 <img
                    src='./src/img/logoSofia.png'
                    alt='Logo Sofia Plus'
