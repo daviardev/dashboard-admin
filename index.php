@@ -1,4 +1,4 @@
-<?php include('./backend/conexion.php'); ?>
+<?php include('./backend/login.php'); ?>
 
 <!DOCTYPE html>
 <html lang='es'>
@@ -17,7 +17,13 @@
                    src='./src/img/logoSofia.png'
                    alt='Logo Sofia Plus'
                 />
-                <div class='error-txt'></div>
+                <?php if (isset($errorLogin)) {
+                    echo "
+                        <span class='error-txt'>
+                            $errorLogin
+                        </span>
+                    ";
+                } ?>
                 <h2 class='title-login'>ingreso usuarios registrados</h2>
                 <div class='input-content'>
                     <input
