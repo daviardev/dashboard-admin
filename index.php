@@ -12,19 +12,19 @@
 <body>
     <div class='container-login'>
         <section class='content-login'>
-            <form action='./backend/login.php' class='form-login' method='post'>
+            <form action='./backend/login.php' class='form-login' method='POST'>
                 <img
                    src='./src/img/logoSofia.png'
                    alt='Logo Sofia Plus'
                 />
-                <div class='error-txt'></div>
+                <div class='error-txt'><?php $errorLogin;?></div>
                 <h2 class='title-login'>ingreso usuarios registrados</h2>
                 <div class='input-content'>
                     <input
                       type='text'
                       class='input'
                       name='num_doc'
-                      placeholder='Número de Documento'
+                      placeholder='Número de Documento o Correo'
                       required
                     />
                     <svg

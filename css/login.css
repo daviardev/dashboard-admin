@@ -44,17 +44,7 @@
     border-radius: 5px;
     margin-bottom: 5px;
     border: 1px solid #f5c6cb;
-    display: none;
-}
-
-.eye {
-    position: absolute;
-    right: 15px;
-    top: 20%;
-    color: var(--text-color);
-    transform: translateY(-55%);
-    cursor: pointer;
-    font-size: 24px;
+    /* display: none; */
 }
 
 .title-login {
@@ -75,7 +65,7 @@
 }
 
 .input {
-    font-size: 18px;
+    font-size: 15px;
     line-height: 1.2;
     color: var(--text-color);
     display: block;

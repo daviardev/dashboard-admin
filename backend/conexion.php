@@ -2,7 +2,7 @@
     $password = '';
     $user = 'root';
     $host = 'localhost';
-    $db = 'dash-data';
+    $db = 'formulario';
 
     $conn = mysqli_connect($host, $user, $password, $db);
 
