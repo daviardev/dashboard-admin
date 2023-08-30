@@ -6,6 +6,7 @@
     left: 0;
     width: 20vw;
     height: 100%;
+    width: 15%;
     padding: 10px 14px;
     background: var(--sidebar-color);
     transition: var(--tran-05);

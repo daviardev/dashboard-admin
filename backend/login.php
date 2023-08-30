@@ -3,42 +3,43 @@ session_start();
 
 include('conexion.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['num_doc'];
-    $password = $_POST['contraseña'];
-  
-    // Buscar un usuario con el correo electrónico
-    $query = 'SELECT * FROM registros WHERE correos = $email';
-    $resultado = mysqli_query($conn, $query);
-  
-    if (mysqli_num_rows($resultado) == 1) {
-      $fila = mysqli_fetch_assoc($resultado);
-      $ValidarContraseñas = $fila['contraseña'];
-      // Comparar la contraseña ingresada con la contraseña almacenada hasheada
-      if (password_verify($password, $ValidarContraseñas)) {
-        $_SESSION['usuario_id'] = $fila['id'];
-        $_SESSION['num_doc'] = $fila;
-        $_SESSION['login'] = 'OK';
-  
-        if ($fila['rol'] == 3) { //Administrador
-          header('Location: ../admin.php');
-          exit;
-        } else if ($fila['rol'] == 4) { //Instructor
-          header('Location: ../instructor.php');
-          exit;
-        } else {
-          header('Location: ../index.php');
-          exit;
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $numberDoc = $_POST['num_doc'];
+        $pass = $_POST['contraseña'];
+
+        $query = 'SELECT * FROM registropersonas WHERE num_doc = $numberDoc';
+        $result = mysqli_query($conn, $query);
+
+        if (mysqli_num_rows($result) === 1) {
+            $row = mysqli_fetch_assoc($result);
+            $validatePass = $row['contraseña'];
+
+            if (password_verify($pass, $validatePass)) {
+                $_SESSION['user_id'] = $row['id'];
+                $_SESSION['user'] = $row;
+                $_SESSION['login'] = 'Autenticado';
+
+                if ($row['rol' === 3]) {
+                    $location = '../admin.php';
+                } else if ($row['rol'] === 4) {
+                    $location = '../instructor.php';
+                } else {
+                    $location = '../index.php';
+                }
+
+                if (isset($location)) {
+                    header('Location: $location');
+                    exit;
+                } else {
+                    $errorLogin = 'Usuario no registrado';
+                    exit;
+                }
+            } else {
+                $errorLogin = 'Usuario o contraseña incorrectos';
+                exit;
+            }
         }
-      } else {
-        $errorLogin = 'Contraseña incorrecta.';
-        exit;
-      }
-    } else {
-      $errorLogin = 'Usuario no encontrado.';
-      exit;
     }
-  }
 
 mysqli_close($conn);
 
