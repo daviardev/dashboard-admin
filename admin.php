@@ -1,4 +1,34 @@
-<?php include './backend/conexion.php'; ?>
+<?php include './backend/conexion.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $lastName = isset($_POST['apellidos']) ? $_POST['apellidos'] : '';
+    $phoneNum = isset($_POST['telefono']) ? $_POST['telefono'] : '';
+    $typeDoc = isset($_POST['tipo_doc']) ? $_POST['tipo_doc'] : '';
+    $numDoc = isset($_POST['num_doc']) ? $_POST['num_doc'] : '';
+    $name = isset($_POST['nombres']) ? $_POST['nombres'] : '';
+    $email = isset($_POST['correo']) ? $_POST['correo'] : '';
+    $user_type = isset($_POST['rol']) ? $_POST['rol'] : '';
+
+    $pass = md5(isset($_POST['contraseña']) ? $_POST['contraseña'] : '');
+
+    $select = "SELECT * FROM registropersonas WHERE nombres = '$name' OR apellidos = '$lastName' OR num_doc = '$numDoc' OR correo = '$email' OR telefono = '$phoneNum'";
+
+    $query = mysqli_query($conn, $select);
+
+    if(mysqli_num_rows($query) > 0){
+        $error[] = 'El usuario que intenta registrar, ya está registrado.';
+    } else {
+        $insert = "INSERT INTO registropersonas (nombres, apellidos, tipo_doc, num_doc, correo, telefono, rol, contraseña) VALUES ('$name', '$lastName', '$typeDoc', '$numDoc', '$email', '$phoneNum', '$user_type', '$pass')";
+          
+        if (mysqli_query($conn, $insert)) {
+            header('location: ./admin.php');
+        }
+    
+        mysqli_close($conn);
+    }
+}
+?>
+
 
 <!DOCTYPE html>
 <html lang='es'>
@@ -16,9 +46,20 @@
 
   <div class='wrapper'>
     <div class='inner'>
-      <form action='' class='form'>
+      <form action='' class='form' method='post'>
         <h2>ingresar nuevos usuarios</h2>
         
+        <?php
+          if (isset($error)) {
+            foreach ($error as $error) {
+              echo "
+                <div class='error-txt'>"
+                  .$error.
+                "</div>
+                ";
+            }
+          }
+        ?>
         <div class='form-wrapper'>
           <label>Tipo de documento</label>
           <select name='tipo_doc' class='form-control'>
@@ -45,29 +86,29 @@
         <div class='form-group'>
           <div class='form-wrapper'>
             <label>Nombres</label>
-            <input type='text' name='names' class='form-control' />
+            <input type='text' name='nombres' class='form-control' />
           </div>
 
           <div class='form-wrapper'>
             <label>Apellidos</label>
-            <input type='text' name='last_names' class='form-control' />
+            <input type='text' name='apellidos' class='form-control' />
           </div>
         </div>
         
         <div class='form-wrapper'>
           <label>Correo</label>
-          <input type='email' name='email' class='form-control' />
+          <input type='email' name='correo' class='form-control' />
         </div>
         
         <div class='form-group'>
           <div class='form-wrapper'>
             <label>Teléfono</label>
-            <input type='number' name='phone_num' class='form-control' />
+            <input type='number' name='telefono' class='form-control' />
           </div>
           
           <div class='form-wrapper'>
             <label>Rol de usuario</label>
-            <select name='user_rol' class='form-control'>
+            <select name='rol' class='form-control'>
             <?php
               $tipo_doc = 'SELECT * FROM sub_items WHERE id_items = 1';
               $query = mysqli_query($conn, $tipo_doc);
@@ -85,12 +126,12 @@
         </div>
         <div class='form-wrapper'>
           <label>Contraseña</label>
-          <input type='password' name='password' class='form-control' />
+          <input type='password' name='contraseña' class='form-control' />
         </div>
         
         <div class='form-wrapper'>
           <center>
-            <button class='btn'>Registrar usuario</button>
+            <button type='submit' name='submit' class='btn'>Registrar usuario</button>
           </center>
         </div>
       </form>
