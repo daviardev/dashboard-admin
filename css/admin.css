@@ -1,2 +1,163 @@
-@import url(globals.css)
+@import url(globals.css);
 
+.wrapper {
+    display: flex;
+}
+
+.inner {
+    margin: auto;
+    padding-top: 5px;
+
+    @media (max-width: 991px) {
+        min-width: 768px;
+    }
+
+    @media (max-width: 767px) {
+        min-width: auto;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+.form {
+    width: 100%;
+    padding-left: 45px;
+
+    @media (max-width: 767px) {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}
+
+h2 {
+    text-transform: uppercase;
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 32px;
+    color: var(--text-color);
+    letter-spacing: 2px;
+}
+
+.form-group {
+    display: flex;
+}
+
+.form-group .form-wrapper:first-child {
+    margin-right: 20px;
+}
+
+.form-group .form-wrapper {
+    width: 50%;
+}
+
+.form-wrapper {
+    margin-bottom: 17px;
+}
+
+.form-wrapper label {
+    margin-bottom: 9px;
+    display: block;
+    color: var(--text-color);
+}
+
+.form-control {
+    border: 1px solid #ccc;
+    display: block;
+    width: 100%;
+    height: 40px;
+    padding: 0 20px;
+    border-radius: 20px;
+    color: var(--text-color);
+    background: 0 0;
+}
+
+.btn {
+    width: 100%;
+    height: 38px;
+    color: #fff;
+    border-radius: 20px;
+    background-color: var(--primary-color);
+
+    &:hover {
+        color: var(--sidebar-color);
+        background-color: var(--text-color);
+    }
+}
+
+/* Float button */
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 9.5px 12px;
+    background-color: var(--primary-color);
+    border-radius: 9999px;
+}
+
+.bx {
+    font-size: 20px;
+    color: white;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    z-index: 10;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #eee;
+    padding: 50px 12px;
+    border-radius: 5px;
+    position: relative;
+    max-width: 80%;
+    max-height: 80%;
+    overflow: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.action {
+    font-size: 20px;
+    color: #fff;
+    background-color: var(--primary-color);
+    width: 33px;
+    height: 35px;
+    border-radius: 9999px;
+
+    &:hover {
+        background-color: var(--text-color);
+    }
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
