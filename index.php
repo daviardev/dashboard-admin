@@ -1,4 +1,39 @@
-<?php include('./backend/login.php'); ?>
+<?php
+session_start();
+include('./backend/conexion.php');
+
+if (!isset($_SESSION['admin_name']) || !isset($_SESSION['instructor_name']) || !isset($_SESSION['aprendiz_name'])) {
+    header('location:./index.php');
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $numDoc = $_POST['num_doc'];
+    $pass = md5($_POST['contraseña']);
+
+    $select = "SELECT * FROM registropersonas WHERE num_doc = '$numDoc' && contraseña = '$pass'";
+
+    $query = mysqli_query($conn, $select);
+
+    if (mysqli_num_rows($query) > 0) {
+        $row = mysqli_fetch_array($query);
+
+        if ($row['rol'] == 10) {
+            $_SESSION['admin_name'] = $row['nombres'];
+            header('location:./admin.php');
+
+        } else if ($row['rol'] == 11) {
+            $_SESSION['instructor_name'] = $row['nombres'];
+            header('location:./instructor.php');
+
+        } else if ($row['rol'] == 12) {
+            $_SESSION['aprendiz_name'] = $row['nombres'];
+            header('location:./aprendiz.php');
+        }
+    } else {
+        $error[] = "Datos incorrectos";
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang='es'>
@@ -12,19 +47,29 @@
 <body>
     <div class='container-login'>
         <section class='content-login'>
-            <form action='./backend/login.php' class='form-login' method='POST'>
+            <form class='form-login' method='POST'>
                 <img
                    src='./src/img/logoSofia.png'
                    alt='Logo Sofia Plus'
                 />
-                <div class='error-txt'></div>
+                <?php
+                if (isset($error)) {
+                    foreach ($error as $error) {
+                        echo "
+                            <div class='error-txt'>"
+                            .$error.
+                            "</div>
+                        ";
+                    }
+                }
+                ?>
                 <h2 class='title-login'>ingreso usuarios registrados</h2>
                 <div class='input-content'>
                     <input
                       type='text'
                       class='input'
                       name='num_doc'
-                      placeholder='Número de Documento o Correo'
+                      placeholder='Número de Documento'
                       required
                     />
                     <svg
@@ -67,7 +112,7 @@
                     <path d='M2 17h20v2H2v-2zm1.15-4.05L4 11.47l.85 1.48 1.3-.75-.85-1.48H7v-1.5H5.3l.85-1.47L4.85 7 4 8.47 3.15 7l-1.3.75.85 1.47H1v1.5h1.7l-.85 1.48 1.3.75zm6.7-.75l1.3.75.85-1.48.85 1.48 1.3-.75-.85-1.48H15v-1.5h-1.7l.85-1.47-1.3-.75L12 8.47 11.15 7l-1.3.75.85 1.47H9v1.5h1.7l-.85 1.48zM23 9.22h-1.7l.85-1.47-1.3-.75L20 8.47 19.15 7l-1.3.75.85 1.47H17v1.5h1.7l-.85 1.48 1.3.75.85-1.48.85 1.48 1.3-.75-.85-1.48H23v-1.5z'></path></svg>
                 </div>
                 <div class='content-button'>
-                    <button class='btn' type='submit'>
+                    <button class='btn' name='submit' type='submit'>
                         ingresar
                     </button>
                 </div>
