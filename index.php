@@ -2,10 +2,6 @@
 session_start();
 include('./backend/conexion.php');
 
-if (!isset($_SESSION['admin_name']) || !isset($_SESSION['instructor_name']) || !isset($_SESSION['aprendiz_name'])) {
-    header('location:./index.php');
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $numDoc = $_POST['num_doc'];
     $pass = md5($_POST['contraseña']);
