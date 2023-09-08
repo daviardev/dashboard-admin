@@ -21,10 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $query = mysqli_query($conn, $select);
 
-    if(mysqli_num_rows($query) > 0){
-        $error[] = 'El usuario que intenta registrar, ya está registrado.';
+    if (empty($lastName) || empty($email) || empty($phoneNum) || empty($lastName) || empty($numDoc) || empty($name)) {
+      $error[] = 'Debe completar todos los campos';
+    } else if (mysqli_num_rows($query) > 0) {
+      $error[] = 'El usuario que intenta registrar, ya está registrado.';
     } else {
-        $insert = "INSERT INTO registropersonas (nombres, apellidos, tipo_doc, num_doc, correo, telefono, rol, contraseña) VALUES ('$name', '$lastName', '$typeDoc', '$numDoc', '$email', '$phoneNum', '$user_type', '$pass')";
+      $insert = "INSERT INTO registropersonas (nombres, apellidos, tipo_doc, num_doc, correo, telefono, rol, contraseña) VALUES ('$name', '$lastName', '$typeDoc', '$numDoc', '$email', '$phoneNum', '$user_type', '$pass')";
           
         if (mysqli_query($conn, $insert)) {
             header('location: ./admin.php');
@@ -45,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel='shortcut icon' href='./src/img/favicon.jpeg' type='image/x-icon'>
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <link rel='stylesheet' href='./css/admin.css'>
-    <title>Administrador · Registrar usuarios</title>
+    <title>Administrador · Registrar usuarios (<?php echo $_SESSION['admin_name'] ?>)</title>
 </head>
 
 <body>
@@ -53,11 +55,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <header>
         <div class='image-text'>
             <span class='image'>
-                <img src='https://avatars.githubusercontent.com/u/65743790?v=4' alt='logo' />
+                <img
+                  src='./src/img/favicon.jpeg'
+                  alt='logo'
+                />
             </span>
             <div class='text logo-text'>
                 <span class='name'><?php echo $_SESSION['admin_name'] ?></span>
-                <span class='profession'><?php echo $_SESSION['rol'] ?></span>
             </div>
         </div>
         <i class='bx bx-chevron-right toggle'></i>
@@ -139,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             type='number'
             name='num_doc'
             class='form-control'
-            required
+            
           />
         </div>
         
@@ -150,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               type='text'
               name='nombres'
               class='form-control'
-              required
+              
             />
           </div>
 
@@ -160,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               type='text'
               name='apellidos'
               class='form-control'
-              required
+              
             />
           </div>
         </div>
@@ -171,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             type='email'
             name='correo'
             class='form-control'
-            required
+            
           />
         </div>
         
@@ -182,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               type='number'
               name='telefono'
               class='form-control'
-              required
+              
             />
           </div>
           
@@ -210,7 +214,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             type='password'
             name='contraseña'
             class='form-control'
-            required
+            
           />
         </div>
         
@@ -229,13 +233,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class='modal-content'>
         <span class='close' id='closeModalBtn'>&times;</span>
         <h2>Usuarios registrados</h2>
-        <?php include('./components/tabla.php') ?>
+        <table>
+    <tr>
+        <th>id</th>
+        <th>Nombres</th>
+        <th>Apellidos</th>
+        <th>Tipo Documento</th>
+        <th>Número documento</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+    </tr>
+    <?php
+    $select = 'SELECT * FROM registropersonas';
+    $query = mysqli_query($conn, $select);
+
+    while ($row = mysqli_fetch_array($query)) {
+        echo "<tr>";
+        echo "<td>".$row['id']."</td>";
+        echo "<td>".$row['nombres']."</td>";
+        echo "<td>".$row['apellidos']."</td>";
+        echo "<td>".$row['tipo_doc']."</td>";
+        echo "<td>".$row['num_doc']."</td>";
+        echo "<td>".$row['correo']."</td>";
+        echo "<td>".$row['telefono']."</td>";
+        echo "<td>".$row['rol']."</td>";
+        echo "<td>";
+        echo "<button class='action'>";
+        echo "<svg stroke='currentColor' fill='none' stroke-width='2' viewBox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' height='1em' width='1em' xmlns='http://www.w3.org/2000/svg'>
+        <path d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7'></path>
+        <path d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z'></path>
+      </svg>";
+        echo "</button>";
+
+        echo "<button class='action'>";
+        echo "<svg stroke='currentColor' fill='currentColor' stroke-width='0' viewBox='0 0 1024 1024' height='1em' width='1em' xmlns='http://www.w3.org/2000/svg'>
+        <path d='M864 256H736v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zm-200 0H360v-72h304v72z'></path>
+      </svg>";
+        echo "</button>";
+
+        echo "</td>";
+        echo "</tr>";
+    }
+    ?>
+</table>
     </div>
   </div>
   </div>
 </body>
-
-<script type="module" src='./js/modal.js'></script>
 <script type='module' src='./js/sidebar.js'></script>
-
+<script type='module' src='./js/modal.js'></script>
 </html>
