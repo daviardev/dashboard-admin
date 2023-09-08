@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div class='bottom-content'>
             <li class='nav-link'>
-                <a href='../dashboard-admin/backend/logout.php'>
+                <a href='./backend/logout.php'>
                     <i class='bx bx-log-out icon'></i>
                     <span class='text nav-text'>Cerrar sesión</span>
                 </a>
