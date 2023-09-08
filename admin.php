@@ -21,10 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $query = mysqli_query($conn, $select);
 
-    if(mysqli_num_rows($query) > 0){
-        $error[] = 'El usuario que intenta registrar, ya está registrado.';
+    if (empty($lastName) || empty($email) || empty($phoneNum) || empty($lastName) || empty($numDoc) || empty($name)) {
+      $error[] = 'Debe completar todos los campos';
+    } else if (mysqli_num_rows($query) > 0) {
+      $error[] = 'El usuario que intenta registrar, ya está registrado.';
     } else {
-        $insert = "INSERT INTO registropersonas (nombres, apellidos, tipo_doc, num_doc, correo, telefono, rol, contraseña) VALUES ('$name', '$lastName', '$typeDoc', '$numDoc', '$email', '$phoneNum', '$user_type', '$pass')";
+      $insert = "INSERT INTO registropersonas (nombres, apellidos, tipo_doc, num_doc, correo, telefono, rol, contraseña) VALUES ('$name', '$lastName', '$typeDoc', '$numDoc', '$email', '$phoneNum', '$user_type', '$pass')";
           
         if (mysqli_query($conn, $insert)) {
             header('location: ./admin.php');
@@ -45,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel='shortcut icon' href='./src/img/favicon.jpeg' type='image/x-icon'>
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <link rel='stylesheet' href='./css/admin.css'>
-    <title>Administrador · Registrar usuarios</title>
+    <title>Administrador · Registrar usuarios (<?php echo $_SESSION['admin_name'] ?>)</title>
 </head>
 
 <body>
@@ -53,7 +55,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <header>
         <div class='image-text'>
             <span class='image'>
-                <img src='https://avatars.githubusercontent.com/u/65743790?v=4' alt='logo' />
+                <img
+                  src='./src/img/favicon.jpeg'
+                  alt='logo'
+                />
             </span>
             <div class='text logo-text'>
                 <span class='name'><?php echo $_SESSION['admin_name'] ?></span>
@@ -138,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             type='number'
             name='num_doc'
             class='form-control'
-            required
+            
           />
         </div>
         
@@ -149,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               type='text'
               name='nombres'
               class='form-control'
-              required
+              
             />
           </div>
 
@@ -159,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               type='text'
               name='apellidos'
               class='form-control'
-              required
+              
             />
           </div>
         </div>
@@ -170,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             type='email'
             name='correo'
             class='form-control'
-            required
+            
           />
         </div>
         
@@ -181,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               type='number'
               name='telefono'
               class='form-control'
-              required
+              
             />
           </div>
           
@@ -209,7 +214,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             type='password'
             name='contraseña'
             class='form-control'
-            required
+            
           />
         </div>
         
