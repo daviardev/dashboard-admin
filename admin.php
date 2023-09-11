@@ -253,7 +253,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <th>Acciones</th>
           </tr>
           <?php
-          $select = 'SELECT * FROM registropersonas';
+          $select = "SELECT r.id, r.nombres, r.apellidos, i.description AS tipo_documento, r.num_doc, r.correo, r.telefono, s.description AS rol, r.contraseña
+          FROM registropersonas r
+          JOIN sub_items s ON r.rol = s.id
+          JOIN sub_items i ON r.tipo_doc = i.id
+          WHERE s.description IN ('Aprendiz', 'Instructor')";
           $query = mysqli_query($conn, $select);
 
           while ($row = mysqli_fetch_array($query)) {
@@ -261,27 +265,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<td>".$row['id']."</td>";
             echo "<td>".$row['nombres']."</td>";
             echo "<td>".$row['apellidos']."</td>";
-
-            $typeQuery = "SELECT * FROM sub_items WHERE id_items = 2 AND id = ".$row['tipo_doc'];
-            $typeResult = mysqli_query($conn, $typeQuery);
-            $typeRol = mysqli_fetch_assoc($typeResult);
-
-            echo "<td>".$typeRol['description']."</td>";
+            echo "<td>".$row['tipo_documento']."</td>";
             echo "<td>".$row['num_doc']."</td>";
             echo "<td>".$row['correo']."</td>";
             echo "<td>".$row['telefono']."</td>";
-
-            $rolQuery = "SELECT * FROM sub_items WHERE id_items = 1 AND id = ".$row['rol'];
-            $rolResult = mysqli_query($conn, $rolQuery);
-            $rolRow = mysqli_fetch_assoc($rolResult);
-
-            echo "<td>".$rolRow['description']."</td>";
+            echo "<td>".$row['rol']."</td>";
 
             echo "
               <td>
                 <button
                   class='action'
                 >
+                <a href='?id=".$row['id']."'>
                   <svg
                     stroke='currentColor'
                     fill='none'
@@ -300,6 +295,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                       d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z'
                     />
                   </svg>
+                  </a>
                 </button>
 
                 <form method='post' action=''>
