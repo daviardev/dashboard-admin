@@ -393,128 +393,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               $numDoc = $row['num_doc'];
               $email = $row['correo'];
               $rol = $row['rol'];
-              $passMdn = md5($pass);
-            }
-          }
-        ?>
-        <div class='inner'>
-      <form action='' class='form' method='post'>
-        <h2>ingresar nuevos usuarios</h2>
+              $pass = $row['contraseña'];
 
-        <?php
-        if (isset($error)) {
-          foreach ($error as $error) {
-            echo "
-              <div class='error-txt'>"
-                .$error.
-              "</div>
-            ";
-          }
-        }
-        ?>
-        <div class='form-wrapper'>
-          <label>Tipo de documento</label>
-          <select name='tipo_doc' class='form-control'>
-            <?php
-            $tipo_doc = 'SELECT * FROM sub_items WHERE id_items = 2';
-            $query = mysqli_query($conn, $tipo_doc);
-
-            while ($row = mysqli_fetch_array($query)) {
               echo "
-                <option value='".$row['id']."'>"
-                  .$row['description'].
-                "</option>
+                <h2>Editar Usuario</h2>
+                  <form method='post' action=''>
+                  <div class='form-wrapper'>
+                    <label>Tipo de documento</label>
+                    <select name='tipo_doc' class='form-control'>
+                      <option value='".$row['id']."'>"
+                      .$row['description'].
+                      "</option>
+                    </select>
+                  </div>
+                    <input type='hidden' name='userId' value='$id'>
+                    <div class='form-wrapper'>
+                      <label>Nombres</label>
+                      <input type='text' name='nombres' class='form-control' value='$name' />
+                    </div>
+                    <div class='form-wrapper'>
+                      <label>Apellidos</label>
+                      <input type='text' name='apellidos' class='form-control' value='$lastname' />
+                    </div>
+                    <button type='submit' name='submit' class='btn'>Actualizar Usuario</button>
+                  </form>
               ";
             }
-            ?>
-          </select>
-        </div>
-        
-        <h2>Editar el usuario <?php echo $row['nombres'] ?></h2>
-        <div class='form-wrapper'>
-          <label>Número de documento</label>
-          <input
-            type='number'
-            name='num_doc'
-            class='form-control'
-          />
-        </div>
-
-        <div class='form-group'>
-          <div class='form-wrapper'>
-            <label>Nombres</label>
-            <input
-              type='text'
-              name='nombres'
-              class='form-control'
-            />
-          </div>
-
-          <div class='form-wrapper'>
-            <label>Apellidos</label>
-            <input
-              type='text'
-              name='apellidos'
-              class='form-control'
-            />
-          </div>
-        </div>
-
-        <div class='form-wrapper'>
-          <label>Correo</label>
-          <input
-            type='email'
-            name='correo'
-            class='form-control'
-          />
-        </div>
-
-        <div class='form-group'>
-          <div class='form-wrapper'>
-            <label>Teléfono</label>
-            <input
-              type='number'
-              name='telefono'
-              class='form-control'
-            />
-          </div>
-
-          <div class='form-wrapper'>
-            <label>Rol de usuario</label>
-            <select name='rol' class='form-control'>
-              <?php
-              $tipo_doc = 'SELECT * FROM sub_items WHERE id_items = 1';
-              $query = mysqli_query($conn, $tipo_doc);
-
-              while ($row = mysqli_fetch_array($query)) {
-                echo "
-                  <option value='".$row['id']."'>"
-                    .$row['description'].
-                  "</option>
-                ";
-              }
-              ?>
-            </select>
-          </div>
-        </div>
-        <div class='form-wrapper'>
-          <label>Contraseña</label>
-          <input
-            type='password'
-            name='contraseña'
-            class='form-control'
-          />
-        </div>
-
-        <div class='form-wrapper'>
-          <center>
-            <button type='submit' name='submit' class='btn'>
-              Registrar usuario
-            </button>
-          </center>
-        </div>
-      </form>
-    </div>
+          }
+        ?>
       </div>
     </div>
   </div>
