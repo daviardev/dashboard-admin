@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
                 ?>
-                <h2 class='title-login'>ingreso usuarios registrados</h2>
+                <h3 class='title-login'>ingreso usuarios registrados</h3>
                 <div class='input-content'>
                     <input
                       type='text'
