@@ -2,6 +2,7 @@
 @import url(sidebar.css);
 
 .wrapper {
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,7 +10,6 @@
 
 .form {
     width: 100%;
-    padding-left: 45px;
 
     @media (max-width: 767px) {
         width: 100%;

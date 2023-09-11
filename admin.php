@@ -37,6 +37,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if (isset($_POST['userId'])) {
     $userId = $_POST['userId'];
+
+    $update = "UPDATE registropersonas SET
+    nombres = '$name',
+    apellidos = '$lastName',
+    tipo_doc = '$typeDoc',
+    num_doc = '$numDoc',
+    correo = '$email',
+    telefono = '$phoneNum',
+    rol = '$user_type',
+    contraseña = '$pass'
+    WHERE id = $userId";
+
+    if (mysqli_query($conn, $update)) {
+      header('Refresh:0');
+    } else {
+      $error[] = 'Error al actualizar el usuario.';
+    }
+  } else {
+    $select = "SELECT * FROM registropersonas WHERE nombres = '$name' OR apellidos = '$lastName' OR num_doc = '$numDoc' OR correo = '$email' OR telefono = '$phoneNum' OR contraseña = '$pass'";
+
+    $query = mysqli_query($conn, $select);
+
+    if (empty($name) || empty($lastName) || empty($numDoc) || empty($email) || empty($phoneNum) || empty($pass)) {
+      $error[] = 'Para poder actualizar los datos, debe completar todos los datos';
+    } else if (mysqli_num_rows($query) > 0) {
+      $error[] = 'Los datos del usuario que intenta actualizar, ya están registrados.';
+    } else {
+      $insert = "INSERT INTO registropersonas (nombres, apellidos, tipo_doc, num_doc, correo, telefono, rol, contraseña ) VALUES ('$name', '$lastName', '$tipo_doc', '$num_doc', '$email', '$phoneNum', '$user_type', '$pass')";
+
+      if (mysqli_query($conn, $insert)) {
+        header('Refresh:0');
+      } else {
+        $error[] = 'Error al actualizar el usuario';
+      }
+
+      mysqli_close($conn);
+    }
+  }
+
+  if (isset($_POST['userId'])) {
+    $userId = $_POST['userId'];
   
     $delete = "DELETE FROM registropersonas WHERE id = $userId";
   
@@ -302,7 +343,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   <input
                     type='hidden'
                     name='userId'
-                    value='" . $row['id'] . "'
+                    value='".$row['id']."'
                   />
 
                   <button
@@ -330,6 +371,150 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           }
           ?>
         </table>
+      </div>
+    </div>
+    <div id='modal' class='modal'>
+      <div class='modal-content'>
+        <span class='close' id='closeModalBtn'>&times;</span>
+        <?php
+          if (isset($_GET['id'])) {
+            $edit = $_GET['id'];
+
+            $editQuery = "SELECT * FROM registropersonas WHERE id = $edit";
+            $result = mysqli_query($conn, $editQuery);
+
+            if ($result && mysqli_num_rows($result) > 0) {
+              $row = mysqli_fetch_assoc($result);
+
+              $id = $row['id'];
+              $name = $row['nombres'];
+              $lastname = $row['apellidos'];
+              $tipo_doc = $row['tipo_doc'];
+              $numDoc = $row['num_doc'];
+              $email = $row['correo'];
+              $rol = $row['rol'];
+              $passMdn = md5($pass);
+            }
+          }
+        ?>
+        <div class='inner'>
+      <form action='' class='form' method='post'>
+        <h2>ingresar nuevos usuarios</h2>
+
+        <?php
+        if (isset($error)) {
+          foreach ($error as $error) {
+            echo "
+              <div class='error-txt'>"
+                .$error.
+              "</div>
+            ";
+          }
+        }
+        ?>
+        <div class='form-wrapper'>
+          <label>Tipo de documento</label>
+          <select name='tipo_doc' class='form-control'>
+            <?php
+            $tipo_doc = 'SELECT * FROM sub_items WHERE id_items = 2';
+            $query = mysqli_query($conn, $tipo_doc);
+
+            while ($row = mysqli_fetch_array($query)) {
+              echo "
+                <option value='".$row['id']."'>"
+                  .$row['description'].
+                "</option>
+              ";
+            }
+            ?>
+          </select>
+        </div>
+        
+        <h2>Editar el usuario <?php echo $row['nombres'] ?></h2>
+        <div class='form-wrapper'>
+          <label>Número de documento</label>
+          <input
+            type='number'
+            name='num_doc'
+            class='form-control'
+          />
+        </div>
+
+        <div class='form-group'>
+          <div class='form-wrapper'>
+            <label>Nombres</label>
+            <input
+              type='text'
+              name='nombres'
+              class='form-control'
+            />
+          </div>
+
+          <div class='form-wrapper'>
+            <label>Apellidos</label>
+            <input
+              type='text'
+              name='apellidos'
+              class='form-control'
+            />
+          </div>
+        </div>
+
+        <div class='form-wrapper'>
+          <label>Correo</label>
+          <input
+            type='email'
+            name='correo'
+            class='form-control'
+          />
+        </div>
+
+        <div class='form-group'>
+          <div class='form-wrapper'>
+            <label>Teléfono</label>
+            <input
+              type='number'
+              name='telefono'
+              class='form-control'
+            />
+          </div>
+
+          <div class='form-wrapper'>
+            <label>Rol de usuario</label>
+            <select name='rol' class='form-control'>
+              <?php
+              $tipo_doc = 'SELECT * FROM sub_items WHERE id_items = 1';
+              $query = mysqli_query($conn, $tipo_doc);
+
+              while ($row = mysqli_fetch_array($query)) {
+                echo "
+                  <option value='".$row['id']."'>"
+                    .$row['description'].
+                  "</option>
+                ";
+              }
+              ?>
+            </select>
+          </div>
+        </div>
+        <div class='form-wrapper'>
+          <label>Contraseña</label>
+          <input
+            type='password'
+            name='contraseña'
+            class='form-control'
+          />
+        </div>
+
+        <div class='form-wrapper'>
+          <center>
+            <button type='submit' name='submit' class='btn'>
+              Registrar usuario
+            </button>
+          </center>
+        </div>
+      </form>
+    </div>
       </div>
     </div>
   </div>
