@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </a>
           </li>
           <li class='nav-link'>
-            <a href='#'>
+            <a href='fichas.php'>
             <i class='bx bx-archive icon'></i>
               <span class='text nav-text'>Fichas</span>
             </a>

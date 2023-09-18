@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   $pass = md5(isset($_POST['contraseña']) ? $_POST['contraseña'] : '');
 
-  $select = "SELECT * FROM registropersonas WHERE nombres = '$name' OR apellidos = '$lastName' OR num_doc = '$numDoc' OR correo = '$email' OR telefono = '$phoneNum' OR contraseña = '$pass'";
+  $select = "SELECT * FROM registropersonas WHERE nombres = '$name' OR apellidos = '$lastName' OR num_doc = '$numDoc' OR correo = '$email' OR telefono = '$phoneNum'";
 
   $query = mysqli_query($conn, $select);
 
@@ -135,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </a>
           </li>
           <li class='nav-link'>
-            <a href='#'>
+            <a href='./views/fichas.php'>
             <i class='bx bx-archive icon'></i>
               <span class='text nav-text'>Fichas</span>
             </a>
