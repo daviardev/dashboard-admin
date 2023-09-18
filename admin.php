@@ -123,15 +123,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class='menu'>
         <ul class='menu-links'>
           <li class='nav-link'>
-            <a href='#'>
-              <i class='bx bx-home-alt icon'></i>
-              <span class='text nav-text'>Inicio</span>
+            <a href='../dashboard-admin/views/programas.php'>
+            <i class='bx bx-add-to-queue icon'></i>
+              <span class='text nav-text'>Programas</span>
             </a>
           </li>
           <li class='nav-link'>
             <a href='#'>
               <i class='bx bx-user icon'></i>
-              <span class='text nav-text'>Registrar usuarios</span>
+              <span class='text nav-text'>Usuarios</span>
+            </a>
+          </li>
+          <li class='nav-link'>
+            <a href='#'>
+            <i class='bx bx-archive icon'></i>
+              <span class='text nav-text'>Fichas</span>
+            </a>
+          </li>
+          <li class='nav-link'>
+            <a href='#'>
+            <i class='bx bx-user-voice icon'></i>
+              <span class='text nav-text'>Instructores</span>
+            </a>
+          </li>
+          <li class='nav-link'>
+            <a href='#'>
+            <i class='bx bx-user-check icon'></i>
+              <span class='text nav-text'>Asistencia</span>
             </a>
           </li>
         </ul>
@@ -396,27 +414,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               $pass = $row['contraseña'];
 
               echo "
-                <h2>Editar Usuario</h2>
-                  <form method='post' action=''>
-                  <div class='form-wrapper'>
-                    <label>Tipo de documento</label>
-                    <select name='tipo_doc' class='form-control'>
-                      <option value='".$row['id']."'>"
-                      .$row['description'].
-                      "</option>
-                    </select>
-                  </div>
-                    <input type='hidden' name='userId' value='$id'>
-                    <div class='form-wrapper'>
-                      <label>Nombres</label>
-                      <input type='text' name='nombres' class='form-control' value='$name' />
-                    </div>
-                    <div class='form-wrapper'>
-                      <label>Apellidos</label>
-                      <input type='text' name='apellidos' class='form-control' value='$lastname' />
-                    </div>
-                    <button type='submit' name='submit' class='btn'>Actualizar Usuario</button>
-                  </form>
+              <form action='' class='form' method='post'>
+              <h2>ingresar nuevos usuarios</h2>
+      
+              <div class='form-wrapper'>
+                <label>Número de documento</label>
+                <input
+                  type='number'
+                  name='num_doc'
+                  class='form-control'
+                />
+              </div>
+      
+              <div class='form-group'>
+                <div class='form-wrapper'>
+                  <label>Nombres</label>
+                  <input
+                    type='text'
+                    name='nombres'
+                    class='form-control'
+                  />
+                </div>
+      
+                <div class='form-wrapper'>
+                  <label>Apellidos</label>
+                  <input
+                    type='text'
+                    name='apellidos'
+                    class='form-control'
+                  />
+                </div>
+              </div>
+      
+              <div class='form-wrapper'>
+                <label>Correo</label>
+                <input
+                  type='email'
+                  name='correo'
+                  class='form-control'
+                />
+              </div>
+      
+              <div class='form-group'>
+                <div class='form-wrapper'>
+                  <label>Teléfono</label>
+                  <input
+                    type='number'
+                    name='telefono'
+                    class='form-control'
+                  />
+                </div>
+      
+              </div>
+              <div class='form-wrapper'>
+                <label>Contraseña</label>
+                <input
+                  type='password'
+                  name='contraseña'
+                  class='form-control'
+                />
+              </div>
+      
+              <div class='form-wrapper'>
+                <center>
+                  <button type='submit' name='submit' class='btn'>
+                    Actualizar usuario
+                  </button>
+                </center>
+              </div>
+            </form>
               ";
             }
           }
