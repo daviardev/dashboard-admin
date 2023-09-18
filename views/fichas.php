@@ -1,4 +1,4 @@
-<?php include './backend/conexion.php';
+<?php include '../backend/conexion.php';
 
 session_start();
 
@@ -7,26 +7,19 @@ if (!isset($_SESSION['admin_name'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $lastName = isset($_POST['apellidos']) ? $_POST['apellidos'] : '';
-  $phoneNum = isset($_POST['telefono']) ? $_POST['telefono'] : '';
-  $typeDoc = isset($_POST['tipo_doc']) ? $_POST['tipo_doc'] : '';
-  $numDoc = isset($_POST['num_doc']) ? $_POST['num_doc'] : '';
-  $name = isset($_POST['nombres']) ? $_POST['nombres'] : '';
-  $email = isset($_POST['correo']) ? $_POST['correo'] : '';
-  $user_type = isset($_POST['rol']) ? $_POST['rol'] : '';
+  $programName = isset($_POST['nombre_programa']) ? $_POST['nombre_programa'] : '';
+  $state = isset($_POST['estado']) ? $_POST['estado'] : '';
 
-  $pass = md5(isset($_POST['contraseña']) ? $_POST['contraseña'] : '');
-
-  $select = "SELECT * FROM registropersonas WHERE nombres = '$name' OR apellidos = '$lastName' OR num_doc = '$numDoc' OR correo = '$email' OR telefono = '$phoneNum' OR contraseña = '$pass'";
+  $select = "SELECT * FROM programas WHERE nombre_programa = '$programName'";
 
   $query = mysqli_query($conn, $select);
 
-  if (empty($lastName) || empty($email) || empty($phoneNum) || empty($lastName) || empty($numDoc) || empty($name)) {
-    $error[] = 'Debe completar todos los campos';
+  if (empty($programName)) {
+    $error[] = 'Debe escribir el nombre del programa';
   } else if (mysqli_num_rows($query) > 0) {
-    $error[] = 'El usuario que intenta registrar, ya está registrado.';
+    $error[] = 'El programa que intenta registrar, ya está registrado.';
   } else {
-    $insert = "INSERT INTO registropersonas (nombres, apellidos, tipo_doc, num_doc, correo, telefono, rol, contraseña) VALUES ('$name', '$lastName', '$typeDoc', '$numDoc', '$email', '$phoneNum', '$user_type', '$pass')";
+    $insert = "INSERT INTO programas (nombre_programa, estado) VALUES ('$programName', '$state')";
 
     if (mysqli_query($conn, $insert)) {
       header('Refresh:0');
@@ -37,54 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if (isset($_POST['userId'])) {
     $userId = $_POST['userId'];
-
-    $update = "UPDATE registropersonas SET
-    nombres = '$name',
-    apellidos = '$lastName',
-    tipo_doc = '$typeDoc',
-    num_doc = '$numDoc',
-    correo = '$email',
-    telefono = '$phoneNum',
-    rol = '$user_type',
-    contraseña = '$pass'
-    WHERE id = $userId";
-
-    if (mysqli_query($conn, $update)) {
-      header('Refresh:0');
-    } else {
-      $error[] = 'Error al actualizar el usuario.';
-    }
-  } else {
-    $select = "SELECT * FROM registropersonas WHERE nombres = '$name' OR apellidos = '$lastName' OR num_doc = '$numDoc' OR correo = '$email' OR telefono = '$phoneNum' OR contraseña = '$pass'";
-
-    $query = mysqli_query($conn, $select);
-
-    if (empty($name) || empty($lastName) || empty($numDoc) || empty($email) || empty($phoneNum) || empty($pass)) {
-      $error[] = 'Para poder actualizar los datos, debe completar todos los datos';
-    } else if (mysqli_num_rows($query) > 0) {
-      $error[] = 'Los datos del usuario que intenta actualizar, ya están registrados.';
-    } else {
-      $insert = "INSERT INTO registropersonas (nombres, apellidos, tipo_doc, num_doc, correo, telefono, rol, contraseña ) VALUES ('$name', '$lastName', '$tipo_doc', '$num_doc', '$email', '$phoneNum', '$user_type', '$pass')";
-
-      if (mysqli_query($conn, $insert)) {
-        header('Refresh:0');
-      } else {
-        $error[] = 'Error al actualizar el usuario';
-      }
-
-      mysqli_close($conn);
-    }
-  }
-
-  if (isset($_POST['userId'])) {
-    $userId = $_POST['userId'];
   
-    $delete = "DELETE FROM registropersonas WHERE id = $userId";
+    $delete = "DELETE FROM programas WHERE id = $userId";
   
     if (mysqli_query($conn, $delete)) {
         header('Refresh:0');
     } else {
-        $error[] = 'Error al eliminar el usuario';
+        $error[] = 'Error al eliminar el programa.';
     }
   }
 }
@@ -97,10 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset='UTF-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-  <link rel='shortcut icon' href='./src/img/favicon.jpeg' type='image/x-icon'>
+  <link rel='shortcut icon' href='../src/img/favicon.jpeg' type='image/x-icon'>
   <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-  <link rel='stylesheet' href='./css/admin.css'>
-  <title>Administrador · Registrar usuarios (<?php echo $_SESSION['admin_name'] ?>)</title>
+  <link rel='stylesheet' href='../css/admin.css'>
+  <title>Administrador · Registrar fichas (<?php echo $_SESSION['admin_name'] ?>)</title>
 </head>
 
 <body>
@@ -109,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class='image-text'>
         <span class='image'>
           <img
-            src='./src/img/favicon.jpeg'
+            src='../src/img/favicon.jpeg'
             alt='logo'
           />
         </span>
@@ -123,19 +75,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class='menu'>
         <ul class='menu-links'>
           <li class='nav-link'>
-            <a href='../dashboard-admin/views/programas.php'>
+            <a href='programas.php'>
             <i class='bx bx-add-to-queue icon'></i>
               <span class='text nav-text'>Programas</span>
             </a>
           </li>
           <li class='nav-link'>
-            <a href='#'>
+            <a href='../admin.php'>
               <i class='bx bx-user icon'></i>
               <span class='text nav-text'>Usuarios</span>
             </a>
           </li>
           <li class='nav-link'>
-            <a href='./views/fichas.php'>
+            <a href='fichas.php'>
             <i class='bx bx-archive icon'></i>
               <span class='text nav-text'>Fichas</span>
             </a>
@@ -177,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class='wrapper'>
     <div class='inner'>
       <form action='' class='form' method='post'>
-        <h2>ingresar nuevos usuarios</h2>
+        <h2>registrar fichas</h2>
 
         <?php
         if (isset($error)) {
@@ -191,16 +143,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         ?>
         <div class='form-wrapper'>
-          <label>Tipo de documento</label>
+          <label>Programa</label>
           <select name='tipo_doc' class='form-control'>
             <?php
-            $tipo_doc = 'SELECT * FROM sub_items WHERE id_items = 2';
+            $tipo_doc = 'SELECT * FROM programas';
             $query = mysqli_query($conn, $tipo_doc);
 
             while ($row = mysqli_fetch_array($query)) {
               echo "
                 <option value='".$row['id']."'>"
-                  .$row['description'].
+                  .$row['nombre_programa'].
                 "</option>
               ";
             }
@@ -209,55 +161,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <div class='form-wrapper'>
-          <label>Número de documento</label>
+          <label>Número de ficha</label>
           <input
             type='number'
-            name='num_doc'
+            name='ficha'
             class='form-control'
           />
         </div>
 
         <div class='form-group'>
           <div class='form-wrapper'>
-            <label>Nombres</label>
+            <label>Alias</label>
             <input
               type='text'
-              name='nombres'
-              class='form-control'
-            />
-          </div>
-
-          <div class='form-wrapper'>
-            <label>Apellidos</label>
-            <input
-              type='text'
-              name='apellidos'
-              class='form-control'
-            />
-          </div>
-        </div>
-
-        <div class='form-wrapper'>
-          <label>Correo</label>
-          <input
-            type='email'
-            name='correo'
-            class='form-control'
-          />
-        </div>
-
-        <div class='form-group'>
-          <div class='form-wrapper'>
-            <label>Teléfono</label>
-            <input
-              type='number'
               name='telefono'
               class='form-control'
             />
           </div>
 
           <div class='form-wrapper'>
-            <label>Rol de usuario</label>
+            <label>Estado</label>
             <select name='rol' class='form-control'>
               <?php
               $tipo_doc = 'SELECT * FROM sub_items WHERE id_items = 1';
@@ -274,19 +197,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </select>
           </div>
         </div>
-        <div class='form-wrapper'>
-          <label>Contraseña</label>
-          <input
-            type='password'
-            name='contraseña'
-            class='form-control'
-          />
-        </div>
 
         <div class='form-wrapper'>
           <center>
             <button type='submit' name='submit' class='btn'>
-              Registrar usuario
+              Registrar ficha
             </button>
           </center>
         </div>
@@ -302,13 +217,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <table>
           <tr>
             <th>id</th>
-            <th>Nombres</th>
-            <th>Apellidos</th>
-            <th>Tipo Documento</th>
-            <th>Número documento</th>
-            <th>Correo</th>
-            <th>Teléfono</th>
-            <th>Rol</th>
+            <th>Programa</th>
+            <th>Ficha</th>
+            <th>Alias</th>
+            <th>Estado</th>
             <th>Acciones</th>
           </tr>
           <?php
@@ -492,6 +404,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
   </div>
 </body>
-<script type='module' src='./js/sidebar.js'></script>
-<script type='module' src='./js/modal.js'></script>
+<script type='module' src='../js/sidebar.js'></script>
+<script type='module' src='../js/modal.js'></script>
 </html>
