@@ -12,19 +12,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $numFicha = isset($_POST['num_ficha']) ? $_POST['num_ficha'] : '';
     $programa = isset($_POST['nombre_programa']) ? $_POST['nombre_programa'] : '';
 
-    $select = "SELECT * FROM fichas WHERE = '$name' OR apellidos = '$lastName' OR num_doc = '$numDoc' OR correo = '$email' OR telefono = '$phoneNum' OR contraseña = '$pass'";
+    $select = "SELECT * FROM fichas WHERE programa = '$programa' OR ficha = '$numFicha' OR alias = '$alias' OR estado = '$state'";
 
     $query = mysqli_query($conn, $select);
 
-    if (empty($lastName) || empty($email) || empty($phoneNum) || empty($lastName) || empty($numDoc) || empty($name)) {
+    if (empty($programa) || empty($numFicha) || empty($alias) || empty($state)) {
         $error[] = 'Debe completar todos los campos';
     } else if (mysqli_num_rows($query) > 0) {
-        $error[] = 'El usuario que intenta registrar, ya está registrado.';
+        $error[] = 'La ficha que desea registrar, ya está registrada.';
     } else {
-        $insert = "INSERT INTO registropersonas (nombres, apellidos, tipo_doc, num_doc, correo, telefono, rol, contraseña) VALUES ('$name', '$lastName', '$typeDoc', '$numDoc', '$email', '$phoneNum', '$user_type', '$pass')";
+        $insert = "INSERT INTO fichas (programa, ficha, alias, estado) VALUES ('$programa', '$numFicha', '$alias', '$state')";
 
         if (mysqli_query($conn, $insert)) {
-            header('Refresh:0');
+          header('Refresh:0');
         }
 
         mysqli_close($conn);
@@ -33,48 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['userId'])) {
         $userId = $_POST['userId'];
 
-        $update = "UPDATE registropersonas SET
-    nombres = '$name',
-    apellidos = '$lastName',
-    tipo_doc = '$typeDoc',
-    num_doc = '$numDoc',
-    correo = '$email',
-    telefono = '$phoneNum',
-    rol = '$user_type',
-    contraseña = '$pass'
-    WHERE id = $userId";
-
-        if (mysqli_query($conn, $update)) {
-            header('Refresh:0');
-        } else {
-            $error[] = 'Error al actualizar el usuario.';
-        }
-    } else {
-        $select = "SELECT * FROM registropersonas WHERE nombres = '$name' OR apellidos = '$lastName' OR num_doc = '$numDoc' OR correo = '$email' OR telefono = '$phoneNum' OR contraseña = '$pass'";
-
-        $query = mysqli_query($conn, $select);
-
-        if (empty($name) || empty($lastName) || empty($numDoc) || empty($email) || empty($phoneNum) || empty($pass)) {
-            $error[] = 'Para poder actualizar los datos, debe completar todos los datos';
-        } else if (mysqli_num_rows($query) > 0) {
-            $error[] = 'Los datos del usuario que intenta actualizar, ya están registrados.';
-        } else {
-            $insert = "INSERT INTO registropersonas (nombres, apellidos, tipo_doc, num_doc, correo, telefono, rol, contraseña ) VALUES ('$name', '$lastName', '$tipo_doc', '$num_doc', '$email', '$phoneNum', '$user_type', '$pass')";
-
-            if (mysqli_query($conn, $insert)) {
-                header('Refresh:0');
-            } else {
-                $error[] = 'Error al actualizar el usuario';
-            }
-
-            mysqli_close($conn);
-        }
-    }
-
-    if (isset($_POST['userId'])) {
-        $userId = $_POST['userId'];
-
-        $delete = "DELETE FROM registropersonas WHERE id = $userId";
+        $delete = "DELETE FROM fichas WHERE id = $userId";
 
         if (mysqli_query($conn, $delete)) {
             header('Refresh:0');
@@ -175,87 +134,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (isset($error)) {
                     foreach ($error as $error) {
                         echo "
-                            <div class='error-txt'>"
-                            . $error .
-                            "</div>
-            ";
+                        <div class='error-txt'>"
+                          . $error .
+                        "</div>
+                      ";
                     }
                 }
                 ?>
                 <div class='form-wrapper'>
                     <label>Programa</label>
-                    <select name='tipo_doc' class='form-control'>
+                    <select name='nombre_programa' class='form-control'>
                         <?php
-                        $tipo_doc = 'SELECT * FROM programas';
-                        $query = mysqli_query($conn, $tipo_doc);
+                        $nombrePrograma = 'SELECT * FROM programas';
+                        $query = mysqli_query($conn, $nombrePrograma);
 
                         while ($row = mysqli_fetch_array($query)) {
                             echo "
-                <option value='" . $row['id'] . "'>"
-                                . $row['description'] .
-                                "</option>
-              ";
+                              <option value='" . $row['id'] . "'>"
+                                . $row['nombre_programa'] .
+                              "</option>
+                            ";
                         }
                         ?>
                     </select>
                 </div>
 
                 <div class='form-wrapper'>
-                    <label>Número de documento</label>
-                    <input type='number' name='num_doc' class='form-control' />
+                    <label>Número de ficha</label>
+                    <input
+                      type='number'
+                      name='num_ficha'
+                      class='form-control'
+                    />
                 </div>
 
                 <div class='form-group'>
                     <div class='form-wrapper'>
-                        <label>Nombres</label>
-                        <input type='text' name='nombres' class='form-control' />
+                        <label>Alias</label>
+                        <input
+                          type='text'
+                          name='alias'
+                          class='form-control'
+                        />
                     </div>
 
                     <div class='form-wrapper'>
-                        <label>Apellidos</label>
-                        <input type='text' name='apellidos' class='form-control' />
+                        <label>Estado</label>
+                        <select name='estado' class='form-control'>
+                        <?php
+                        $fichas = 'SELECT * FROM sub_items WHERE id_items = 5';
+                        $query = mysqli_query($conn, $fichas);
+
+                        while ($row = mysqli_fetch_array($query)) {
+                            echo "
+                              <option value='" . $row['id'] . "'>"
+                                . $row['description'] .
+                              "</option>
+                            ";
+                        }
+                        ?>
+                    </select>
                     </div>
-                </div>
-
-                <div class='form-wrapper'>
-                    <label>Correo</label>
-                    <input type='email' name='correo' class='form-control' />
-                </div>
-
-                <div class='form-group'>
-                    <div class='form-wrapper'>
-                        <label>Teléfono</label>
-                        <input type='number' name='telefono' class='form-control' />
-                    </div>
-
-                    <div class='form-wrapper'>
-                        <label>Rol de usuario</label>
-                        <select name='rol' class='form-control'>
-                            <?php
-                            $tipo_doc = 'SELECT * FROM sub_items WHERE id_items = 1';
-                            $query = mysqli_query($conn, $tipo_doc);
-
-                            while ($row = mysqli_fetch_array($query)) {
-                                echo "
-                  <option value='" . $row['id'] . "'>"
-                                    . $row['description'] .
-                                    "</option>
-                ";
-                            }
-                            ?>
-                        </select>
-                    </div>
-                </div>
-                <div class='form-wrapper'>
-                    <label>Contraseña</label>
-                    <input type='password' name='contraseña' class='form-control' />
                 </div>
 
                 <div class='form-wrapper'>
                     <center>
-                        <button type='submit' name='submit' class='btn'>
-                            Registrar usuario
-                        </button>
+                      <button type='submit' name='submit' class='btn'>Registrar ficha</button>
                     </center>
                 </div>
             </form>
@@ -266,94 +210,84 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div id='modal' class='modal'>
             <div class='modal-content'>
                 <span class='close' id='closeModalBtn'>&times;</span>
-                <h2>Usuarios registrados</h2>
+                <h2>Fichas registrados</h2>
                 <table>
                     <tr>
                         <th>id</th>
-                        <th>Nombres</th>
-                        <th>Apellidos</th>
-                        <th>Tipo Documento</th>
-                        <th>Número documento</th>
-                        <th>Correo</th>
-                        <th>Teléfono</th>
-                        <th>Rol</th>
+                        <th>Programa</th>
+                        <th>Ficha</th>
+                        <th>Alias</th>
+                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                     <?php
-                    $select = "SELECT r.id, r.nombres, r.apellidos, i.description AS tipo_documento, r.num_doc, r.correo, r.telefono, s.description AS rol, r.contraseña
-          FROM registropersonas r
-          JOIN sub_items s ON r.rol = s.id
-          JOIN sub_items i ON r.tipo_doc = i.id
-          WHERE s.description IN ('Aprendiz', 'Instructor')";
+                    $select = "SELECT * FROM fichas";
                     $query = mysqli_query($conn, $select);
 
                     while ($row = mysqli_fetch_array($query)) {
                         echo "<tr>";
                         echo "<td>" . $row['id'] . "</td>";
-                        echo "<td>" . $row['nombres'] . "</td>";
-                        echo "<td>" . $row['apellidos'] . "</td>";
-                        echo "<td>" . $row['tipo_documento'] . "</td>";
-                        echo "<td>" . $row['num_doc'] . "</td>";
-                        echo "<td>" . $row['correo'] . "</td>";
-                        echo "<td>" . $row['telefono'] . "</td>";
-                        echo "<td>" . $row['rol'] . "</td>";
+                        echo "<td>" . $row['programa'] . "</td>";
+                        echo "<td>" . $row['ficha'] . "</td>";
+                        echo "<td>" . $row['alias'] . "</td>";
+                        echo "<td>" . $row['estado'] . "</td>";
 
                         echo "
-              <td>
-                <button
-                  class='action'
-                >
-                <a href='?id=" . $row['id'] . "'>
-                  <svg
-                    stroke='currentColor'
-                    fill='none'
-                    stroke-width='2'
-                    viewBox='0 0 24 24'
-                    stroke-linecap='round'
-                    stroke-linejoin='round'
-                    height='1em'
-                    width='1em'
-                    xmlns='http://www.w3.org/2000/svg'
-                  >
-                    <path
-                      d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7'
-                    />
-                    <path
-                      d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z'
-                    />
-                  </svg>
-                  </a>
-                </button>
+                        <td>
+                          <button
+                            class='action'
+                          >
+                          <a href='?id=" . $row['id'] . "'>
+                            <svg
+                              stroke='currentColor'
+                              fill='none'
+                              stroke-width='2'
+                              viewBox='0 0 24 24'
+                              stroke-linecap='round'
+                              stroke-linejoin='round'
+                              height='1em'
+                              width='1em'
+                              xmlns='http://www.w3.org/2000/svg'
+                            >
+                              <path
+                                d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7'
+                              />
+                              <path
+                                d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z'
+                              />
+                            </svg>
+                            </a>
+                          </button>
 
-                <form method='post' action=''>
-                  <input
-                    type='hidden'
-                    name='userId'
-                    value='" . $row['id'] . "'
-                  />
+                          <form method='post' action=''>
+                            <input
+                              type='hidden'
+                              name='userId'
+                              value='" . $row['id'] . "'
+                            />
 
-                  <button
-                    class='action'
-                    type='submit'
-                  >
-                    <svg
-                      stroke='currentColor'
-                      fill='currentColor'
-                      stroke-width='0'
-                      viewBox='0 0 1024 1024'
-                      height='1em'
-                      width='1em'
-                      xmlns='http://www.w3.org/2000/svg'
-                    >
-                      <path
-                        d='M864 256H736v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zm-200 0H360v-72h304v72z'
-                      />
-                    </svg>
-                  </button>
-                </form>
-              </td>
-              </tr>
-            ";
+                            <button
+                              class='action'
+                              type='submit'
+                            >
+                              <svg
+                                stroke='currentColor'
+                                fill='currentColor'
+                                stroke-width='0'
+                                viewBox='0 0 1024 1024'
+                                height='1em'
+                                width='1em'
+                                xmlns='http://www.w3.org/2000/svg'
+                              >
+                                <path
+                                  d='M864 256H736v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zm-200 0H360v-72h304v72z'
+                                />
+                              </svg>
+                            </button>
+                          </form>
+                        </td>
+                        </tr>
+                      ";
                     }
                     ?>
                 </table>
@@ -460,7 +394,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     </div>
 </body>
-<script type='module' src='./js/sidebar.js'></script>
-<script type='module' src='./js/modal.js'></script>
+<script type='module' src='../js/sidebar.js'></script>
+<script type='module' src='../js/modal.js'></script>
 
 </html>
