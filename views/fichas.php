@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $numFicha = isset($_POST['num_ficha']) ? $_POST['num_ficha'] : '';
     $programa = isset($_POST['nombre_programa']) ? $_POST['nombre_programa'] : '';
 
-    $select = "SELECT * FROM fichas WHERE programa = '$programa' OR ficha = '$numFicha' OR alias = '$alias' OR estado = '$state'";
+    $select = "SELECT * FROM fichas WHERE programa = '$programa' OR ficha = '$numFicha' OR alias = '$alias'";
 
     $query = mysqli_query($conn, $select);
 
@@ -316,76 +316,76 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $pass = $row['contraseña'];
 
                         echo "
-              <form action='' class='form' method='post'>
-              <h2>ingresar nuevos usuarios</h2>
-      
-              <div class='form-wrapper'>
-                <label>Número de documento</label>
-                <input
-                  type='number'
-                  name='num_doc'
-                  class='form-control'
-                />
-              </div>
-      
-              <div class='form-group'>
-                <div class='form-wrapper'>
-                  <label>Nombres</label>
-                  <input
-                    type='text'
-                    name='nombres'
-                    class='form-control'
-                  />
-                </div>
-      
-                <div class='form-wrapper'>
-                  <label>Apellidos</label>
-                  <input
-                    type='text'
-                    name='apellidos'
-                    class='form-control'
-                  />
-                </div>
-              </div>
-      
-              <div class='form-wrapper'>
-                <label>Correo</label>
-                <input
-                  type='email'
-                  name='correo'
-                  class='form-control'
-                />
-              </div>
-      
-              <div class='form-group'>
-                <div class='form-wrapper'>
-                  <label>Teléfono</label>
-                  <input
-                    type='number'
-                    name='telefono'
-                    class='form-control'
-                  />
-                </div>
-      
-              </div>
-              <div class='form-wrapper'>
-                <label>Contraseña</label>
-                <input
-                  type='password'
-                  name='contraseña'
-                  class='form-control'
-                />
-              </div>
-      
-              <div class='form-wrapper'>
-                <center>
-                  <button type='submit' name='submit' class='btn'>
-                    Actualizar usuario
-                  </button>
-                </center>
-              </div>
-            </form>
-              ";
+                        <form action='' class='form' method='post'>
+                        <h2>ingresar nuevos usuarios</h2>
+                
+                        <div class='form-wrapper'>
+                            <label>Número de documento</label>
+                            <input
+                            type='number'
+                            name='num_doc'
+                            class='form-control'
+                            />
+                        </div>
+                
+                        <div class='form-group'>
+                            <div class='form-wrapper'>
+                            <label>Nombres</label>
+                            <input
+                                type='text'
+                                name='nombres'
+                                class='form-control'
+                            />
+                            </div>
+                
+                            <div class='form-wrapper'>
+                            <label>Apellidos</label>
+                            <input
+                                type='text'
+                                name='apellidos'
+                                class='form-control'
+                            />
+                            </div>
+                        </div>
+                
+                        <div class='form-wrapper'>
+                            <label>Correo</label>
+                            <input
+                            type='email'
+                            name='correo'
+                            class='form-control'
+                            />
+                        </div>
+                
+                        <div class='form-group'>
+                            <div class='form-wrapper'>
+                            <label>Teléfono</label>
+                            <input
+                                type='number'
+                                name='telefono'
+                                class='form-control'
+                            />
+                            </div>
+                
+                        </div>
+                        <div class='form-wrapper'>
+                            <label>Contraseña</label>
+                            <input
+                            type='password'
+                            name='contraseña'
+                            class='form-control'
+                            />
+                        </div>
+                
+                        <div class='form-wrapper'>
+                            <center>
+                            <button type='submit' name='submit' class='btn'>
+                                Actualizar usuario
+                            </button>
+                            </center>
+                        </div>
+                        </form>
+                        ";
                     }
                 }
                 ?>
