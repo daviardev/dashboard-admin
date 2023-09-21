@@ -221,9 +221,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <th>Acciones</th>
                     </tr>
                     <?php
-                    $select = "SELECT f.id, s_prog.description AS programa, f.ficha, f.alias, s_estado.description AS estado
+                    $select = "SELECT f.id, p.nombre_programa AS programa, f.ficha, f.alias, s_estado.description AS estado
                     FROM fichas f
-                    JOIN sub_items s_prog ON f.programa = s_prog.id
+                    JOIN programas p ON f.programa = p.id
                     JOIN sub_items s_estado ON f.estado = s_estado.id";
                     $query = mysqli_query($conn, $select);
 
