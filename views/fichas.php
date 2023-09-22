@@ -91,6 +91,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <span class='text nav-text'>Fichas</span>
                         </a>
                     </li>
+                    
+                    <li class="nav-link">
+                        <a href="./aprendices.php">
+                            <i class="bx bx-user-plus icon"></i>
+                            <span class="text nav-text">Aprendices</span>
+                        </a>
+                    </li>
                     <li class='nav-link'>
                         <a href='#'>
                             <i class='bx bx-user-voice icon'></i>
@@ -221,10 +228,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <th>Acciones</th>
                     </tr>
                     <?php
-                    $select = "SELECT f.id, p.nombre_programa AS programa, f.ficha, f.alias, s_estado.description AS estado
-                    FROM fichas f
-                    JOIN programas p ON f.programa = p.id
-                    JOIN sub_items s_estado ON f.estado = s_estado.id";
+                    $select = "SELECT fichas.id, programas.nombre_programa AS programa, fichas.ficha, fichas.alias, estado.description AS estado
+                    FROM fichas fichas
+                    JOIN programas programas ON fichas.programa = programas.id
+                    JOIN sub_items estado ON fichas.estado = estado.id";
                     $query = mysqli_query($conn, $select);
 
                     while ($row = mysqli_fetch_array($query)) {

@@ -30,13 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if (isset($_POST['userId'])) {
     $userId = $_POST['userId'];
-  
+
     $delete = "DELETE FROM programas WHERE id = $userId";
-  
+
     if (mysqli_query($conn, $delete)) {
-        header('Refresh:0');
+      header('Refresh:0');
     } else {
-        $error[] = 'Error al eliminar el programa.';
+      $error[] = 'Error al eliminar el programa.';
     }
   }
 }
@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <ul class='menu-links'>
           <li class='nav-link'>
             <a href='programas.php'>
-            <i class='bx bx-add-to-queue icon'></i>
+              <i class='bx bx-add-to-queue icon'></i>
               <span class='text nav-text'>Programas</span>
             </a>
           </li>
@@ -88,19 +88,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </li>
           <li class='nav-link'>
             <a href='fichas.php'>
-            <i class='bx bx-archive icon'></i>
+              <i class='bx bx-archive icon'></i>
               <span class='text nav-text'>Fichas</span>
+            </a>
+          </li>
+          <li class="nav-link">
+            <a href="./aprendices.php">
+              <i class="bx bx-user-plus icon"></i>
+              <span class="text nav-text">Aprendices</span>
             </a>
           </li>
           <li class='nav-link'>
             <a href='#'>
-            <i class='bx bx-user-voice icon'></i>
+              <i class='bx bx-user-voice icon'></i>
               <span class='text nav-text'>Instructores</span>
             </a>
           </li>
           <li class='nav-link'>
             <a href='#'>
-            <i class='bx bx-user-check icon'></i>
+              <i class='bx bx-user-check icon'></i>
               <span class='text nav-text'>Asistencia</span>
             </a>
           </li>
@@ -136,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           foreach ($error as $error) {
             echo "
               <div class='error-txt'>"
-                .$error.
+              .$error.
               "</div>
             ";
           }
@@ -161,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             while ($row = mysqli_fetch_array($query)) {
               echo "
                 <option value='".$row['id']."'>"
-                  .$row['description'].
+                .$row['description'].
                 "</option>
               ";
             }
@@ -269,4 +275,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </body>
 <script type='module' src='../js/sidebar.js'></script>
 <script type='module' src='../js/modal.js'></script>
+
 </html>

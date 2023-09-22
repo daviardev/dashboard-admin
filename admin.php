@@ -142,6 +142,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </li>
           <li class='nav-link'>
             <a href='#'>
+              <i class='bx bx-user-plus icon'></i>
+              <span class='text nav-text'>Aprendices</span>
+            </a>
+          </li>
+          <li class='nav-link'>
+            <a href='#'>
             <i class='bx bx-user-voice icon'></i>
               <span class='text nav-text'>Instructores</span>
             </a>
