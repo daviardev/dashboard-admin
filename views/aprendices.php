@@ -7,31 +7,26 @@ if (!isset($_SESSION['admin_name'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $aprendiz = isset($_POST['aprendiz']) ? $_POST['aprendiz'] : '';
+    $aprendices = isset($_POST['aprendices']) ? $_POST['aprendices'] : '';
     $numFichas = isset($_POST['num_ficha']) ? $_POST['num_ficha'] : '';
-    $alias = isset($_POST['alias']) ? $_POST['alias'] : '';
     $estado = isset($_POST['estado']) ? $_POST['estado'] : '';
 
-    $select = "SELECT * FROM aprendices WHERE  = '$programa' OR ficha = '$numFicha' OR alias = '$alias'";
+    if (strlen($aprendices) >= 1 && strlen($numFichas) >= 1 && strlen($estado) >= 1) {
+        $select = "INSERT INTO aprendices (id_persona, id_ficha, estado) VALUES ('$aprendices', '$numFichas', '$estado')";
 
-    $query = mysqli_query($conn, $select);
-
-    if (mysqli_num_rows($query) > 0) {
-        $error[] = 'La ficha que desea registrar, ya está registrada.';
-    } else {
-        $insert = "INSERT INTO fichas (programa, ficha, alias, estado) VALUES ('$programa', '$numFicha', '$alias', '$state')";
-
-        if (mysqli_query($conn, $insert)) {
+        $query = mysqli_query($conn, $select);
+        
+        if ($query) {
             header('Refresh:0');
+        } else {
+            $error[] = 'Error al insertar los datos.';
         }
-
-        mysqli_close($conn);
     }
 
     if (isset($_POST['userId'])) {
         $userId = $_POST['userId'];
 
-        $delete = "DELETE FROM fichas WHERE id = $userId";
+        $delete = "DELETE FROM aprendices WHERE id = $userId";
 
         if (mysqli_query($conn, $delete)) {
             header('Refresh:0');
@@ -146,11 +141,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 ?>
                 <div class='form-wrapper'>
-                    <label>Aprendiz</label>
-                    <select name='id' class='form-control'>
+                    <label>aprendices</label>
+                    <select name='aprendices' class='form-control'>
                         <?php
-                        $idAprendiz = "SELECT * FROM registropersonas WHERE rol = 12";
-                        $query = mysqli_query($conn, $idAprendiz);
+                        $idaprendices = "SELECT * FROM registropersonas WHERE rol = 12";
+                        $query = mysqli_query($conn, $idaprendices);
 
 
                         while ($row = mysqli_fetch_array($query)) {
@@ -181,26 +176,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         ?>
                     </select>
                 </div>
-
-                <div class='form-group'>
-                    <div class='form-wrapper'>
-                        <label>Alias</label>
-                        <select name="alias" class='form-control'>
-                            <?php
-                            $alias = "SELECT * FROM fichas";
-                            $query = mysqli_query($conn, $alias);
-
-                            while($row = mysqli_fetch_array($query)) {
-                                echo "
-                                    <option value='".$row['id']."'>"
-                                    .$row['alias'].
-                                    "</option>
-                                ";
-                            }
-                        ?>
-                        </select>
-                    </div>
-
                     <div class='form-wrapper'>
                         <label>Estado</label>
                         <select name='estado' class='form-control'>
@@ -217,7 +192,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             }
                             ?>
                         </select>
-                    </div>
                 </div>
 
                 <div class='form-wrapper'>
@@ -233,30 +207,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div id='modal' class='modal'>
             <div class='modal-content'>
                 <span class='close' id='closeModalBtn'>&times;</span>
-                <h2>Fichas registrados</h2>
+                <h2>Aprendices registrados</h2>
                 <table>
                     <tr>
                         <th>id</th>
-                        <th>Programa</th>
+                        <th>Nombres y apellidos</th>
                         <th>Ficha</th>
-                        <th>Alias</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                     <?php
-                    $select = "SELECT f.id, p.nombre_programa AS programa, f.ficha, f.alias, s_estado.description AS estado
-                    FROM fichas f
-                    JOIN programas p ON f.programa = p.id
-                    JOIN sub_items s_estado ON f.estado = s_estado.id";
+                    $select = "SELECT aprendices.id, CONCAT(registropersonas.nombres,' ',registropersonas.apellidos) AS nombreCompleto, 
+                                fichas.ficha, sub_items.description FROM aprendices 
+                                INNER JOIN registropersonas ON aprendices.id_persona = registropersonas.id
+                                INNER JOIN fichas ON aprendices.id_ficha = fichas.id 
+                                INNER JOIN sub_items ON aprendices.estado = sub_items.id";
                     $query = mysqli_query($conn, $select);
 
                     while ($row = mysqli_fetch_array($query)) {
                         echo "<tr>";
                         echo "<td>" . $row['id'] . "</td>";
-                        echo "<td>" . $row['programa'] . "</td>";
+                        echo "<td>" . $row['nombreCompleto'] . "</td>";
                         echo "<td>" . $row['ficha'] . "</td>";
-                        echo "<td>" . $row['alias'] . "</td>";
-                        echo "<td>" . $row['estado'] . "</td>";
+                        echo "<td>" . $row['description'] . "</td>";
 
                         echo "
                         <td>
@@ -317,104 +290,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                     ?>
                 </table>
-            </div>
-        </div>
-        <div id='modal' class='modal'>
-            <div class='modal-content'>
-                <span class='close' id='closeModalBtn'>&times;</span>
-                <?php
-                if (isset($_GET['id'])) {
-                    $edit = $_GET['id'];
-
-                    $editQuery = "SELECT * FROM registropersonas WHERE id = $edit";
-                    $result = mysqli_query($conn, $editQuery);
-
-                    if ($result && mysqli_num_rows($result) > 0) {
-                        $row = mysqli_fetch_assoc($result);
-
-                        $id = $row['id'];
-                        $name = $row['nombres'];
-                        $lastname = $row['apellidos'];
-                        $tipo_doc = $row['tipo_doc'];
-                        $numDoc = $row['num_doc'];
-                        $email = $row['correo'];
-                        $rol = $row['rol'];
-                        $pass = $row['contraseña'];
-
-                        echo "
-                        <form action='' class='form' method='post'>
-                        <h2>ingresar nuevos usuarios</h2>
-                
-                        <div class='form-wrapper'>
-                            <label>Número de documento</label>
-                            <input
-                            type='number'
-                            name='num_doc'
-                            class='form-control'
-                            />
-                        </div>
-                
-                        <div class='form-group'>
-                            <div class='form-wrapper'>
-                            <label>Nombres</label>
-                            <input
-                                type='text'
-                                name='nombres'
-                                class='form-control'
-                            />
-                            </div>
-                
-                            <div class='form-wrapper'>
-                            <label>Apellidos</label>
-                            <input
-                                type='text'
-                                name='apellidos'
-                                class='form-control'
-                            />
-                            </div>
-                        </div>
-                
-                        <div class='form-wrapper'>
-                            <label>Correo</label>
-                            <input
-                            type='email'
-                            name='correo'
-                            class='form-control'
-                            />
-                        </div>
-                
-                        <div class='form-group'>
-                            <div class='form-wrapper'>
-                            <label>Teléfono</label>
-                            <input
-                                type='number'
-                                name='telefono'
-                                class='form-control'
-                            />
-                            </div>
-                
-                        </div>
-                        <div class='form-wrapper'>
-                            <label>Contraseña</label>
-                            <input
-                            type='password'
-                            name='contraseña'
-                            class='form-control'
-                            />
-                        </div>
-                
-                        <div class='form-wrapper'>
-                            <center>
-                            <button type='submit' name='submit' class='btn'>
-                                Actualizar usuario
-                            </button>
-                            </center>
-                        </div>
-                        </form>
-                        ";
-                    }
-                }
-                ?>
             </div>
         </div>
     </div>
