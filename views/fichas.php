@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $numFicha = isset($_POST['num_ficha']) ? $_POST['num_ficha'] : '';
     $programa = isset($_POST['nombre_programa']) ? $_POST['nombre_programa'] : '';
 
-    $select = "SELECT * FROM fichas WHERE programa = '$programa' OR ficha = '$numFicha' OR alias = '$alias'";
+    $select = "SELECT * FROM fichas WHERE ficha = '$numFicha' OR alias = '$alias'";
 
     $query = mysqli_query($conn, $select);
 
