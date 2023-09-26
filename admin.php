@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   $pass = md5(isset($_POST['contraseña']) ? $_POST['contraseña'] : '');
 
-  $select = "SELECT * FROM registropersonas WHERE nombres = '$name' OR apellidos = '$lastName' OR num_doc = '$numDoc' OR correo = '$email' OR telefono = '$phoneNum'";
+  $select = "SELECT * FROM registropersonas WHERE num_doc = '$numDoc' OR correo = '$email' OR telefono = '$phoneNum'";
 
   $query = mysqli_query($conn, $select);
 
