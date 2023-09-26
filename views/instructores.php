@@ -9,15 +9,19 @@ if (!isset($_SESSION['admin_name'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $idInstructor = isset($_POST['nombre_instructor']) ? $_POST['nombre_instructor'] : '';
     $idFicha = isset($_POST['num_ficha']) ? $_POST['num_ficha'] : '';
-
-    $select = "INSERT INTO instructores (id_persona, id_ficha) VALUES ('$idInstructor', '$idFicha')";
-
+    
+    $select = "SELECT * FROM instructores WHERE id_persona = '$idInstructor' AND id_ficha = '$idFicha'";
     $query = mysqli_query($conn, $select);
 
-    if ($query)
-        header('Refresh:0');
-    else
-        $error[] = 'Error al insertar datos.';
+    if (mysqli_num_rows($query) > 0) {
+        $error[] = 'El instructor que quiere asignar, ya tiene una ficha asignada.';
+      } else {
+        $insert = "INSERT INTO instructores (id_persona, id_ficha) VALUES ('$idInstructor', '$idFicha')";
+    
+        if (mysqli_query($conn, $insert)) {
+          header('Refresh:0');
+        }
+      }
 
     if (isset($_POST['userId'])) {
         $userId = $_POST['userId'];
@@ -197,14 +201,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <th>Acciones</th>
                     </tr>
                     <?php
-                    $select = "SELECT instructores.id, CONCAT(registropersonas.nombres,' ',registropersonas.apellidos) AS nombreCompleto, fichas.ficha FROM instructores INNER JOIN registropersonas ON instructores.id_persona = registropersonas.id INNER JOIN fichas ON instructores.id_ficha = fichas.id";
+                    $select = "SELECT instructores.id, CONCAT(registropersonas.nombres,' ',registropersonas.apellidos) AS nombreCompleto, fichas.alias FROM instructores INNER JOIN registropersonas ON instructores.id_persona = registropersonas.id INNER JOIN fichas ON instructores.id_ficha = fichas.id";
                     $query = mysqli_query($conn, $select);
 
                     while ($row = mysqli_fetch_array($query)) {
                         echo "<tr>";
                         echo "<td>" . $row['id'] . "</td>";
                         echo "<td>" . $row['nombreCompleto']."</td>";
-                        echo "<td>" . $row['ficha'] . "</td>";
+                        echo "<td>" . $row['alias'] . "</td>";
 
                         echo "
                         <td>
