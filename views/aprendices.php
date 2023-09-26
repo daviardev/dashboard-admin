@@ -10,16 +10,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $aprendices = isset($_POST['aprendices']) ? $_POST['aprendices'] : '';
     $numFichas = isset($_POST['num_ficha']) ? $_POST['num_ficha'] : '';
     $estado = isset($_POST['estado']) ? $_POST['estado'] : '';
+    
+    $select = "SELECT * FROM aprendices WHERE id_persona = '$aprendices'";
+    $query = mysqli_query($conn, $select);
 
-    if (strlen($aprendices) >= 1 && strlen($numFichas) >= 1 && strlen($estado) >= 1) {
-        $select = "INSERT INTO aprendices (id_persona, id_ficha, estado) VALUES ('$aprendices', '$numFichas', '$estado')";
+    if (mysqli_num_rows($query) > 0) {
+        $error[] = 'El aprendiz que quiere asignar su estado, ya está asginado.';
+    } else {
+        $insert = "INSERT INTO aprendices (id_persona, id_ficha, estado) VALUES ('$aprendices', '$numFichas', '$estado')";
 
-        $query = mysqli_query($conn, $select);
-        
-        if ($query) {
+        if (mysqli_query($conn, $insert)) {
             header('Refresh:0');
-        } else {
-            $error[] = 'Error al insertar los datos.';
         }
     }
 
@@ -85,13 +86,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </a>
                     </li>
                     <li class="nav-link">
-                        <a href="./aprendices.php">
+                        <a href="aprendices.php">
                             <i class="bx bx-user-plus icon"></i>
                             <span class="text nav-text">Aprendices</span>
                         </a>
                     </li>
                     <li class='nav-link'>
-                        <a href='#'>
+                        <a href='instructores.php'>
                             <i class='bx bx-user-voice icon'></i>
                             <span class='text nav-text'>Instructores</span>
                         </a>
@@ -180,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label>Estado</label>
                         <select name='estado' class='form-control'>
                             <?php
-                            $fichas = 'SELECT * FROM sub_items WHERE id_items = 5';
+                            $fichas = 'SELECT * FROM sub_items WHERE id_items = 6';
                             $query = mysqli_query($conn, $fichas);
 
                             while ($row = mysqli_fetch_array($query)) {
