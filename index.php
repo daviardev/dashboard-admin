@@ -14,11 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $row = mysqli_fetch_array($query);
 
         if ($row['rol'] == 10) {
-            $_SESSION['admin_name'] = $row['nombres'];
+            $_SESSION['admin_name'] = $row['nombres'] .' '. $row['apellidos'];
             header('location:./admin.php');
 
         } else if ($row['rol'] == 11) {
-            $_SESSION['instructor_name'] = $row['nombres'];
+            $_SESSION['instructor_name'] = $row['nombres'] .' '. $row['apellidos'];
             header('location:./instructor.php');
 
         }
