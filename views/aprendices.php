@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION['admin_name'])) {
-    header('location:./index.php');
+  header('location:./index.php');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
