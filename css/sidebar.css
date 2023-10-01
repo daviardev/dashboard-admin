@@ -50,11 +50,11 @@
     font-size: 15.5px;
     font-weight: 500;
     white-space: nowrap;
-    opacity: 1;
+    display: flex;
 }
 
 .sidebar.close .text {
-    opacity: 0;
+    display: none;
 }
 
 /* =========================== */
