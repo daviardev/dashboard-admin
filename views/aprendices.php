@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </nav>
     <div class='wrapper'>
         <div class='inner'>
-            <form class='form' method='post'>
+            <form class='form' action='' method='POST'>
                 <h2>registrar aprendices</h2>
 
                 <?php
@@ -219,10 +219,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </tr>
                     <?php
                     $select = "SELECT aprendices.id, CONCAT(registropersonas.nombres,' ',registropersonas.apellidos) AS nombreCompleto, 
-                                fichas.ficha, sub_items.description FROM aprendices 
-                                INNER JOIN registropersonas ON aprendices.id_persona = registropersonas.id
-                                INNER JOIN fichas ON aprendices.id_ficha = fichas.id 
-                                INNER JOIN sub_items ON aprendices.estado = sub_items.id";
+                    fichas.ficha, sub_items.description FROM aprendices 
+                    INNER JOIN registropersonas ON aprendices.id_persona = registropersonas.id
+                    INNER JOIN fichas ON aprendices.id_ficha = fichas.id 
+                    INNER JOIN sub_items ON aprendices.estado = sub_items.id";
                     $query = mysqli_query($conn, $select);
 
                     while ($row = mysqli_fetch_array($query)) {
