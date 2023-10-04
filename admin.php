@@ -37,47 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if (isset($_POST['userId'])) {
     $userId = $_POST['userId'];
-
-    $update = "UPDATE registropersonas SET
-    nombres = '$name',
-    apellidos = '$lastName',
-    tipo_doc = '$typeDoc',
-    num_doc = '$numDoc',
-    correo = '$email',
-    telefono = '$phoneNum',
-    rol = '$user_type',
-    contraseña = '$pass'
-    WHERE id = $userId";
-
-    if (mysqli_query($conn, $update)) {
-      header('Refresh:0');
-    } else {
-      $error[] = 'Error al actualizar el usuario.';
-    }
-  } else {
-    $select = "SELECT * FROM registropersonas WHERE nombres = '$name' OR apellidos = '$lastName' OR num_doc = '$numDoc' OR correo = '$email' OR telefono = '$phoneNum' OR contraseña = '$pass'";
-
-    $query = mysqli_query($conn, $select);
-
-    if (empty($name) || empty($lastName) || empty($numDoc) || empty($email) || empty($phoneNum) || empty($pass)) {
-      $error[] = 'Para poder actualizar los datos, debe completar todos los datos';
-    } else if (mysqli_num_rows($query) > 0) {
-      $error[] = 'Los datos del usuario que intenta actualizar, ya están registrados.';
-    } else {
-      $insert = "INSERT INTO registropersonas (nombres, apellidos, tipo_doc, num_doc, correo, telefono, rol, contraseña ) VALUES ('$name', '$lastName', '$tipo_doc', '$num_doc', '$email', '$phoneNum', '$user_type', '$pass')";
-
-      if (mysqli_query($conn, $insert)) {
-        header('Refresh:0');
-      } else {
-        $error[] = 'Error al actualizar el usuario';
-      }
-
-      mysqli_close($conn);
-    }
-  }
-
-  if (isset($_POST['userId'])) {
-    $userId = $_POST['userId'];
   
     $delete = "DELETE FROM registropersonas WHERE id = $userId";
   
@@ -152,12 +111,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <span class='text nav-text'>Instructores</span>
             </a>
           </li>
-          <li class='nav-link'>
-            <a href=''>
-            <i class='bx bx-user-check icon'></i>
-              <span class='text nav-text'>Asistencia</span>
-            </a>
-          </li>
         </ul>
       </div>
       <div class='bottom-content'>
@@ -189,9 +142,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($error)) {
           foreach ($error as $error) {
             echo "
-              <div class='error-txt'>"
-                .$error.
-              "</div>
+            <div class='alert alert-error'>
+              <p>".$error."</p>   
+            </div>
             ";
           }
         }
@@ -338,11 +291,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             echo "
               <td>
-                <button
-                  class='action'
-                >
-                <a href='?id=".$row['id']."'>
-                  <svg
+              <button class='action'>
+                <a href='../dashboard-admin/backend/editar/admin.php?id=".$row['id']."'>
+                <svg
                     stroke='currentColor'
                     fill='none'
                     stroke-width='2'
@@ -360,8 +311,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                       d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z'
                     />
                   </svg>
-                  </a>
-                </button>
+                </a>
+              </button>
 
                 <form method='post' action=''>
                   <input
@@ -397,105 +348,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </table>
       </div>
     </div>
-    <div id='modal' class='modal'>
-      <div class='modal-content'>
-        <span class='close' id='closeModalBtn'>&times;</span>
-        <?php
-          if (isset($_GET['id'])) {
-            $edit = $_GET['id'];
-
-            $editQuery = "SELECT * FROM registropersonas WHERE id = $edit";
-            $result = mysqli_query($conn, $editQuery);
-
-            if ($result && mysqli_num_rows($result) > 0) {
-              $row = mysqli_fetch_assoc($result);
-
-              $id = $row['id'];
-              $name = $row['nombres'];
-              $lastname = $row['apellidos'];
-              $tipo_doc = $row['tipo_doc'];
-              $numDoc = $row['num_doc'];
-              $email = $row['correo'];
-              $rol = $row['rol'];
-              $pass = $row['contraseña'];
-
-              echo "
-              <form action='' class='form' method='post'>
-              <h2>ingresar nuevos usuarios</h2>
-      
-              <div class='form-wrapper'>
-                <label>Número de documento</label>
-                <input
-                  type='number'
-                  name='num_doc'
-                  class='form-control'
-                />
-              </div>
-      
-              <div class='form-group'>
-                <div class='form-wrapper'>
-                  <label>Nombres</label>
-                  <input
-                    type='text'
-                    name='nombres'
-                    class='form-control'
-                  />
-                </div>
-      
-                <div class='form-wrapper'>
-                  <label>Apellidos</label>
-                  <input
-                    type='text'
-                    name='apellidos'
-                    class='form-control'
-                  />
-                </div>
-              </div>
-      
-              <div class='form-wrapper'>
-                <label>Correo</label>
-                <input
-                  type='email'
-                  name='correo'
-                  class='form-control'
-                />
-              </div>
-      
-              <div class='form-group'>
-                <div class='form-wrapper'>
-                  <label>Teléfono</label>
-                  <input
-                    type='number'
-                    name='telefono'
-                    class='form-control'
-                  />
-                </div>
-      
-              </div>
-              <div class='form-wrapper'>
-                <label>Contraseña</label>
-                <input
-                  type='password'
-                  name='contraseña'
-                  class='form-control'
-                />
-              </div>
-      
-              <div class='form-wrapper'>
-                <center>
-                  <button type='submit' name='submit' class='btn'>
-                    Actualizar usuario
-                  </button>
-                </center>
-              </div>
-            </form>
-              ";
-            }
-          }
-        ?>
-      </div>
-    </div>
-  </div>
   </div>
 </body>
 <script type='module' src='./js/sidebar.js'></script>
