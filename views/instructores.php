@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <link rel='shortcut icon' href='../src/img/favicon.jpeg' type='image/x-icon'>
+    <link rel='shortcut icon' href='../src/img/favicon.png' type='image/x-icon'>
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <link rel='stylesheet' href='../css/admin.css'>
     <title>Administrador · Asignar instructores (<?php echo $_SESSION['admin_name'] ?>)</title>
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <header>
             <div class='image-text'>
                 <span class='image'>
-                    <img src='../src/img/favicon.jpeg' alt='logo' />
+                    <img src='../src/img/favicon.png' alt='logo' />
                 </span>
                 <div class='text logo-text'>
                     <span class='name'><?php echo $_SESSION['admin_name'] ?></span>
@@ -95,12 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <a href='./instructores.php'>
                             <i class='bx bx-user-voice icon'></i>
                             <span class='text nav-text'>Instructores</span>
-                        </a>
-                    </li>
-                    <li class='nav-link'>
-                        <a href='#'>
-                            <i class='bx bx-user-check icon'></i>
-                            <span class='text nav-text'>Asistencia</span>
                         </a>
                     </li>
                 </ul>

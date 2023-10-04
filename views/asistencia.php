@@ -97,12 +97,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <span class='text nav-text'>Instructores</span>
                         </a>
                     </li>
-                    <li class='nav-link'>
-                        <a href='asistencia.php'>
-                            <i class='bx bx-user-check icon'></i>
-                            <span class='text nav-text'>Asistencia</span>
-                        </a>
-                    </li>
                 </ul>
             </div>
             <div class='bottom-content'>
