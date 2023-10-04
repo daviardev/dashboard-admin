@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-09-2023 a las 07:57:46
+-- Tiempo de generación: 04-10-2023 a las 05:28:25
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.0.28
 
@@ -48,13 +48,17 @@ CREATE TABLE `fichas` (
   `estado` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `fichas`
+-- Estructura de tabla para la tabla `instructores`
 --
 
-INSERT INTO `fichas` (`id`, `programa`, `ficha`, `alias`, `estado`) VALUES
-(7, 11, 32, 'hgfhgfhfgjgfjghjhgkhg', 16),
-(8, 13, 6090989809090, 'asdsafsaf', 15);
+CREATE TABLE `instructores` (
+  `id` int(11) NOT NULL,
+  `id_persona` int(11) NOT NULL,
+  `id_ficha` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -75,7 +79,8 @@ INSERT INTO `item` (`id`, `description`) VALUES
 (1, 'rol'),
 (2, 'documento'),
 (3, 'estado'),
-(5, 'estado_ficha');
+(5, 'estado_ficha'),
+(6, 'estado_aprendiz');
 
 -- --------------------------------------------------------
 
@@ -94,10 +99,7 @@ CREATE TABLE `programas` (
 --
 
 INSERT INTO `programas` (`id`, `nombre_programa`, `estado`) VALUES
-(10, 'fdsfdssdffds', 13),
-(11, 'hgfhgfh', 13),
-(12, 'gdfdsfdsdfsfdsdfs', 13),
-(13, 'nbvnbvnbvnvbnbvnbvnvbnvbnbvnbvnvb', 13);
+(17, 'tecnico en programación de software', 13);
 
 -- --------------------------------------------------------
 
@@ -125,7 +127,7 @@ INSERT INTO `registropersonas` (`id`, `nombres`, `apellidos`, `tipo_doc`, `num_d
 (40, 'daviar', 'dev', 5, 2, 'daviar@daviar.com', 32, 10, 'caf1a3dfb505ffed0d024130f58c5cfa'),
 (43, 'jh', 'as', 6, 6543, 'da@.qd.es', 423, 10, '1ff1de774005f8da13f42943881c655f'),
 (49, '123', '321', 7, 123321, '123@ds.das', 2147483647, 12, '9acacb906f59ed21c5c7e6bf78ea7323'),
-(50, 'jhsfhjkfsdhkfdskfdskhfdskhdskjsdkjsdkjsdkjkjsfdkjf', 'kjsdhkjsdjkhdskjfkjsdjkkjhfkdsjhfkjhdkjhsdkjhsdkjh', 5, 2147483647, 'jkhadskjsahkjdhsajksdkjdskjdhasd@hdjhasdkjhsakjdhk', 2147483647, 12, 'ba40bf59e82432e19b35232b4089be20');
+(51, 'ghfgfg', 'dsfdsf', 5, 3213323, 'dsdasdds@sa.s', 3232, 11, '0fbe1ddfbc52dffd9e79649d4e3c0b29');
 
 -- --------------------------------------------------------
 
@@ -155,7 +157,10 @@ INSERT INTO `sub_items` (`id`, `id_items`, `description`) VALUES
 (13, 3, 'Activo'),
 (14, 3, 'Inactivo'),
 (15, 5, 'En formación'),
-(16, 5, 'Culminado');
+(16, 5, 'Culminado'),
+(17, 6, 'En formación'),
+(18, 6, 'Certificado'),
+(19, 6, 'Culminado');
 
 --
 -- Índices para tablas volcadas
@@ -178,6 +183,14 @@ ALTER TABLE `fichas`
   ADD KEY `programa` (`programa`),
   ADD KEY `estado` (`estado`),
   ADD KEY `ficha` (`ficha`);
+
+--
+-- Indices de la tabla `instructores`
+--
+ALTER TABLE `instructores`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_persona` (`id_persona`),
+  ADD KEY `id_ficha` (`id_ficha`);
 
 --
 -- Indices de la tabla `item`
@@ -215,37 +228,43 @@ ALTER TABLE `sub_items`
 -- AUTO_INCREMENT de la tabla `aprendices`
 --
 ALTER TABLE `aprendices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `fichas`
 --
 ALTER TABLE `fichas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT de la tabla `instructores`
+--
+ALTER TABLE `instructores`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `item`
 --
 ALTER TABLE `item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `programas`
 --
 ALTER TABLE `programas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `registropersonas`
 --
 ALTER TABLE `registropersonas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT de la tabla `sub_items`
 --
 ALTER TABLE `sub_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Restricciones para tablas volcadas
@@ -257,13 +276,20 @@ ALTER TABLE `sub_items`
 ALTER TABLE `aprendices`
   ADD CONSTRAINT `aprendices_ibfk_1` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `aprendices_ibfk_2` FOREIGN KEY (`estado`) REFERENCES `sub_items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `aprendices_ibfk_3` FOREIGN KEY (`id`) REFERENCES `registropersonas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `aprendices_ibfk_3` FOREIGN KEY (`id_persona`) REFERENCES `registropersonas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `fichas`
 --
 ALTER TABLE `fichas`
   ADD CONSTRAINT `fichas_ibfk_1` FOREIGN KEY (`programa`) REFERENCES `programas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `instructores`
+--
+ALTER TABLE `instructores`
+  ADD CONSTRAINT `instructores_ibfk_1` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `instructores_ibfk_2` FOREIGN KEY (`id_persona`) REFERENCES `registropersonas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `programas`
