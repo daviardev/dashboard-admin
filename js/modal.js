@@ -4,10 +4,6 @@ const modal = $('#modal')
 const openModalBtn = $('#openModalBtn')
 const closeModalBtn = $('#closeModalBtn')
 
-const modalEdit = $('#modalEdit')
-const openModalEdit = $('#openModalEdit')
-const closeModalEdit = $('#closeModalEdit')
-
 
 // Open table modal
 openModalBtn.addEventListener('click', () => {
@@ -22,9 +18,4 @@ window.addEventListener('click', e => {
     if (e.target === modal) {
         modal.style.display = 'none'
     }
-})
-
-// Open edit modal
-openModalEdit.addEventListener('click', () => {
-    
 })
