@@ -49,10 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         foreach ($error as $error) {
                             echo "
                             <div class='alert alert-error'>
-                                <div class='icon__wrapper'>
-                                    <i class='bx bx-alarm-exclamation'></i>
-                                </div>
-                                <p>".$error."</p>   
+                                <p>".$error."</p>
                             </div>
                         ";
                         }
