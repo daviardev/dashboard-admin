@@ -35,10 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mysqli_close($conn);
   }
 
-  if (isset($_POST['userId'])) {
-    $userId = $_POST['userId'];
+  if (isset($_POST['id'])) {
+    $id = $_POST['id'];
   
-    $delete = "DELETE FROM registropersonas WHERE id = $userId";
+    $delete = "DELETE FROM registropersonas WHERE id = $id";
   
     if (mysqli_query($conn, $delete)) {
         header('Refresh:0');
@@ -317,7 +317,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form method='post' action=''>
                   <input
                     type='hidden'
-                    name='userId'
+                    name='id'
                     value='".$row['id']."'
                   />
 
