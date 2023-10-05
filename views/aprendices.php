@@ -228,30 +228,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         echo "
                         <td>
-                          <button
-                            class='action'
+                        <button class='action'>
+                        <a href='../backend/editar/aprendices.php?id=".$row['id']."'>
+                        <svg
+                            stroke='currentColor'
+                            fill='none'
+                            stroke-width='2'
+                            viewBox='0 0 24 24'
+                            stroke-linecap='round'
+                            stroke-linejoin='round'
+                            height='1em'
+                            width='1em'
+                            xmlns='http://www.w3.org/2000/svg'
                           >
-                          <a href='?id=" . $row['id'] . "'>
-                            <svg
-                              stroke='currentColor'
-                              fill='none'
-                              stroke-width='2'
-                              viewBox='0 0 24 24'
-                              stroke-linecap='round'
-                              stroke-linejoin='round'
-                              height='1em'
-                              width='1em'
-                              xmlns='http://www.w3.org/2000/svg'
-                            >
-                              <path
-                                d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7'
-                              />
-                              <path
-                                d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z'
-                              />
-                            </svg>
-                            </a>
-                          </button>
+                            <path
+                              d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7'
+                            />
+                            <path
+                              d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z'
+                            />
+                          </svg>
+                        </a>
+                      </button>
 
                           <form method='post' action=''>
                             <input

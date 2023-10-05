@@ -208,7 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button
                   class='action'
                 >
-                <a href='?id=".$row['id']."'>
+                <a href='../backend/editar/programas.php?id=".$row['id']."'>
                   <svg
                     stroke='currentColor'
                     fill='none'

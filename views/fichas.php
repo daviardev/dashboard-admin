@@ -241,7 +241,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                           <button
                             class='action'
                           >
-                          <a href='?id=" . $row['id'] . "'>
+                          <a href='../backend/editar/fichas.php?id=" . $row['id'] . "'>
                             <svg
                               stroke='currentColor'
                               fill='none'
@@ -297,105 +297,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </table>
             </div>
         </div>
-        <div id='modal' class='modal'>
-            <div class='modal-content'>
-                <span class='close' id='closeModalBtn'>&times;</span>
-                <?php
-                if (isset($_GET['id'])) {
-                    $edit = $_GET['id'];
-
-                    $editQuery = "SELECT * FROM registropersonas WHERE id = $edit";
-                    $result = mysqli_query($conn, $editQuery);
-
-                    if ($result && mysqli_num_rows($result) > 0) {
-                        $row = mysqli_fetch_assoc($result);
-
-                        $id = $row['id'];
-                        $name = $row['nombres'];
-                        $lastname = $row['apellidos'];
-                        $tipo_doc = $row['tipo_doc'];
-                        $numDoc = $row['num_doc'];
-                        $email = $row['correo'];
-                        $rol = $row['rol'];
-                        $pass = $row['contraseña'];
-
-                        echo "
-                        <form action='' class='form' method='post'>
-                        <h2>ingresar nuevos usuarios</h2>
-                
-                        <div class='form-wrapper'>
-                            <label>Número de documento</label>
-                            <input
-                            type='number'
-                            name='num_doc'
-                            class='form-control'
-                            />
-                        </div>
-                
-                        <div class='form-group'>
-                            <div class='form-wrapper'>
-                            <label>Nombres</label>
-                            <input
-                                type='text'
-                                name='nombres'
-                                class='form-control'
-                            />
-                            </div>
-                
-                            <div class='form-wrapper'>
-                            <label>Apellidos</label>
-                            <input
-                                type='text'
-                                name='apellidos'
-                                class='form-control'
-                            />
-                            </div>
-                        </div>
-                
-                        <div class='form-wrapper'>
-                            <label>Correo</label>
-                            <input
-                            type='email'
-                            name='correo'
-                            class='form-control'
-                            />
-                        </div>
-                
-                        <div class='form-group'>
-                            <div class='form-wrapper'>
-                            <label>Teléfono</label>
-                            <input
-                                type='number'
-                                name='telefono'
-                                class='form-control'
-                            />
-                            </div>
-                
-                        </div>
-                        <div class='form-wrapper'>
-                            <label>Contraseña</label>
-                            <input
-                            type='password'
-                            name='contraseña'
-                            class='form-control'
-                            />
-                        </div>
-                
-                        <div class='form-wrapper'>
-                            <center>
-                            <button type='submit' name='submit' class='btn'>
-                                Actualizar usuario
-                            </button>
-                            </center>
-                        </div>
-                        </form>
-                        ";
-                    }
-                }
-                ?>
-            </div>
-        </div>
-    </div>
     </div>
 </body>
 <script type='module' src='../js/sidebar.js'></script>
